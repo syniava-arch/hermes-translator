@@ -11,7 +11,7 @@
       "b",
       "a",
       "n",
-      "",
+      " ",
       "d",
       "ē",
       "i",
@@ -52,7 +52,7 @@
       "k",
       "a",
       "s",
-      "",
+      " ",
       "P",
       "e",
       "r",
@@ -64,7 +64,7 @@
       "t",
       "a",
       "s",
-      "",
+      " ",
       "W",
       "ā",
       "l",
@@ -85,7 +85,7 @@
       "ī",
       "l",
       "s",
-      "",
+      " ",
       "a",
       "n",
       "k",
@@ -130,11 +130,11 @@
       "S",
       "t",
       "a",
-      "",
+      " ",
       "a",
       "s",
       "t",
-      "",
+      " ",
       "p",
       "r",
       "ū",
@@ -143,7 +143,7 @@
       "s",
       "k",
       "a",
-      "",
+      " ",
       "t",
       "ā",
       "l",
@@ -168,7 +168,7 @@
       "M",
       "e",
       "s",
-      "",
+      " ",
       "m",
       "a",
       "z",
@@ -177,7 +177,7 @@
       "m",
       "a",
       "i",
-      "",
+      " ",
       "w",
       "a",
       "i",
@@ -202,10 +202,10 @@
       "i",
       "g",
       "i",
-      "",
+      " ",
       "t",
       "ū",
-      "",
+      " ",
       "m",
       "ē",
       "r",
@@ -225,11 +225,11 @@
       "d",
       "a",
       "n",
-      "",
+      " ",
       "s",
       "t",
       "a",
-      "",
+      " ",
       "p",
       "r",
       "e",
@@ -254,7 +254,7 @@
       "z",
       "z",
       "i",
-      "",
+      " ",
       "b",
       "ū",
       "t",
@@ -295,7 +295,7 @@
     "pr": [
       "A",
       "s",
-      "",
+      " ",
       "w",
       "a",
       "ī",
@@ -312,10 +312,10 @@
     "pr": [
       "A",
       "s",
-      "",
+      " ",
       "n",
       "i",
-      "",
+      " ",
       "w",
       "a",
       "ī",
@@ -332,10 +332,10 @@
     "pr": [
       "A",
       "s",
-      "",
+      " ",
       "n",
       "i",
-      "",
+      " ",
       "p",
       "a",
       "p",
@@ -355,7 +355,7 @@
     "pr": [
       "A",
       "s",
-      "",
+      " ",
       "p",
       "a",
       "p",
@@ -375,13 +375,13 @@
     "pr": [
       "A",
       "s",
-      "",
+      " ",
       "t",
       "u",
       "r",
       "ē",
       "i",
-      "",
+      " ",
       "i",
       "n",
       "t",
@@ -407,7 +407,7 @@
       "n",
       "e",
       "i",
-      "",
+      " ",
       "p",
       "e",
       "r",
@@ -435,7 +435,7 @@
       "s",
       "s",
       "e",
-      "",
+      " ",
       "p",
       "a",
       "g",
@@ -455,7 +455,7 @@
       "r",
       "e",
       "i",
-      "",
+      " ",
       "p",
       "i",
       "r",
@@ -473,7 +473,7 @@
     "pr": [
       "T",
       "ū",
-      "",
+      " ",
       "w",
       "ī",
       "d",
@@ -490,18 +490,18 @@
       "S",
       "t",
       "a",
-      "",
+      " ",
       "a",
       "s",
       "t",
-      "",
+      " ",
       "b",
       "r",
       "e",
       "n",
       "d",
       "u",
-      "",
+      " ",
       "e",
       "t",
       "r",
@@ -529,7 +529,7 @@
       "a",
       "n",
       "s",
-      "",
+      " ",
       "g",
       "r",
       "u",
@@ -541,7 +541,7 @@
       "a",
       "n",
       "s",
-      "",
+      " ",
       "p",
       "a",
       "w",
@@ -566,7 +566,7 @@
       "l",
       "l",
       "i",
-      "",
+      " ",
       "m",
       "e",
       "t",
@@ -588,7 +588,7 @@
       "l",
       "l",
       "i",
-      "",
+      " ",
       "k",
       "a",
       "i",
@@ -597,7 +597,7 @@
       "ū",
       "j",
       "a",
-      "",
+      " ",
       "b",
       "i",
       "l",
@@ -625,7 +625,7 @@
       "i",
       "m",
       "t",
-      "",
+      " ",
       "e",
       "u",
       "r",
@@ -646,11 +646,11 @@
       "s",
       "a",
       "n",
-      "",
+      " ",
       "b",
       "ē",
       "i",
-      "",
+      " ",
       "k",
       "i",
       "t",
@@ -680,31 +680,31 @@
       "s",
       "k",
       "s",
-      "",
+      " ",
       "n",
       "i",
-      "",
+      " ",
       "a",
       "s",
       "t",
-      "",
+      " ",
       "g",
       "ī",
       "w",
       "s",
       ",",
-      "",
+      " ",
       "l",
       "ā",
       "i",
       "s",
       "k",
       "s",
-      "",
+      " ",
       "a",
       "s",
       "t",
-      "",
+      " ",
       "p",
       "a",
       "w",
@@ -756,2065 +756,1071 @@
     "note": "phrasebook: корпус диалога"
   },
   {
-    "ru": [
-      "Labban dē inan! Добрый день !"
-    ],
-    "pr": [
-      "H",
-      "e",
-      "l",
-      "v",
-      "e",
-      "t",
-      "i",
-      "c",
-      "a",
-      "N",
-      "e",
-      "u",
-      "e",
-      ";",
-      "",
-      ".",
-      "S",
-      "F",
-      "N",
-      "S",
-      "-",
-      "R",
-      "e",
-      "g",
-      "u",
-      "l",
-      "a",
-      "r",
-      "_",
-      "w",
-      "d",
-      "t",
-      "h",
-      "_",
-      "o",
-      "p",
-      "s",
-      "z",
-      "1",
-      "1",
-      "0",
-      "0",
-      "0",
-      "0",
-      "_",
-      "G",
-      "R",
-      "A",
-      "D",
-      "_",
-      "w",
-      "g",
-      "h",
-      "t",
-      "2",
-      "5",
-      "8",
-      "0",
-      "0",
-      "0",
-      "0",
-      ";",
-      "",
-      ";",
-      "",
-      ";",
-      "",
-      ";",
-      "",
-      ";",
-      "",
-      "\\",
-      "*",
-      "",
-      ";",
-      ";",
-      "",
-      ";",
-      "",
-      ";",
-      "",
-      "д",
-      "и",
-      "а",
-      "л",
-      "о",
-      "г",
-      "",
-      ":",
-      "",
-      "L",
-      "a",
-      "b",
-      "b",
-      "a",
-      "n",
-      "",
-      "d",
-      "ē",
-      "",
-      "i",
-      "n",
-      "a",
-      "n"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "Да , пробовал . Такие основные вещи .\\ En kawīdsmu deīktu sta bēi? En stesmu muzēju anga en tā liwidā snas turmu?"
-    ],
-    "pr": [
-      "J",
-      "ā",
-      "",
-      ",",
-      "",
-      "a",
-      "s",
-      "",
-      "b",
-      "e",
-      "i",
-      "",
-      "b",
-      "a",
-      "n",
-      "d",
-      "ā",
-      "",
-      "w",
-      "u",
-      "n",
-      "s",
-      ".",
-      "",
-      "S",
-      "t",
-      "a",
-      "w",
-      "ī",
-      "",
-      "d",
-      "a",
-      "n",
-      "s",
-      "",
-      "g",
-      "r",
-      "u",
-      "n",
-      "t",
-      "i",
-      "s",
-      "k",
-      "a",
-      "n",
-      "s",
-      "",
-      "p",
-      "a",
-      "w",
-      "ī",
-      "",
-      "s",
-      "t",
-      "i",
-      "n",
-      "s",
-      ".",
-      "",
-      "Т",
-      "ы",
-      "",
-      "п",
-      "р",
-      "о",
-      "б",
-      "о",
-      "в",
-      "а",
-      "л",
-      "",
-      "с",
-      "е",
-      "г",
-      "о",
-      "д",
-      "н",
-      "я",
-      "",
-      "г",
-      "д",
-      "е",
-      "",
-      "-",
-      "н",
-      "и",
-      "б",
-      "у",
-      "д",
-      "ь",
-      "",
-      "г",
-      "о",
-      "в",
-      "о",
-      "р",
-      "и",
-      "т",
-      "ь",
-      "",
-      "п",
-      "о",
-      "",
-      "-",
-      "л",
-      "и",
-      "т",
-      "о",
-      "в",
-      "с",
-      "к",
-      "и"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "В обоих местах . Также в магазине .\\ Kā igi tū mēri anga zmānes papresta, kaddan tū bilā i leītawiskai?"
-    ],
-    "pr": [
-      "E",
-      "n",
-      "",
-      "a",
-      "b",
-      "b",
-      "e",
-      "i",
-      "m",
-      "a",
-      "s",
-      "",
-      "d",
-      "e",
-      "i",
-      "k",
-      "t",
-      "a",
-      "m",
-      "m",
-      "a",
-      "n",
-      "s",
-      ".",
-      "",
-      "T",
-      "ē",
-      "",
-      "t",
-      "",
-      "d",
-      "ī",
-      "",
-      "g",
-      "i",
-      "",
-      "e",
-      "n",
-      "",
-      "k",
-      "ā",
-      "",
-      "u",
-      "p",
-      "a",
-      "b",
-      "u",
-      "t",
-      "u",
-      ".",
-      "",
-      "В",
-      "",
-      "к",
-      "а",
-      "к",
-      "о",
-      "м",
-      "",
-      "м",
-      "е",
-      "с",
-      "т",
-      "е",
-      "",
-      "э",
-      "т",
-      "о",
-      "",
-      "б",
-      "ы",
-      "л",
-      "о",
-      "",
-      "?",
-      "",
-      "В",
-      "",
-      "т",
-      "о",
-      "м",
-      "",
-      "м",
-      "у",
-      "з",
-      "е",
-      "е",
-      "",
-      "и",
-      "л",
-      "и",
-      "",
-      "в",
-      "",
-      "т",
-      "е",
-      "л",
-      "е",
-      "б",
-      "а",
-      "ш",
-      "н",
-      "е"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "Они начинают говорить со мной по -литовски , и тогда я : «Извините , английский ».\\ Beggi as ni tēt labbao waīda."
-    ],
-    "pr": [
-      "T",
-      "e",
-      "n",
-      "ē",
-      "",
-      "i",
-      "",
-      "s",
-      "ē",
-      "",
-      "n",
-      "",
-      "m",
-      "e",
-      "n",
-      "",
-      "p",
-      "a",
-      "g",
-      "a",
-      "ū",
-      "",
-      "n",
-      "j",
-      "a",
-      "",
-      "b",
-      "i",
-      "l",
-      "ī",
-      "",
-      "t",
-      "u",
-      "n",
-      "",
-      "l",
-      "e",
-      "ī",
-      "",
-      "t",
-      "a",
-      "w",
-      "i",
-      "s",
-      "k",
-      "a",
-      "i",
-      "",
-      "b",
-      "e",
-      "",
-      "s",
-      "t",
-      "a",
-      "d",
-      "d",
-      "a",
-      "n",
-      "",
-      "a",
-      "s",
-      ":",
-      "",
-      "\"",
-      "S",
-      "o",
-      "r",
-      "r",
-      "y",
-      ",",
-      "",
-      "E",
-      "n",
-      "g",
-      "l",
-      "i",
-      "s",
-      "h",
-      "\"",
-      ".",
-      "",
-      "К",
-      "а",
-      "к",
-      "",
-      "т",
-      "ы",
-      "",
-      "д",
-      "у",
-      "м",
-      "а",
-      "е",
-      "ш",
-      "ь",
-      "",
-      ",",
-      "",
-      "л",
-      "ю",
-      "д",
-      "и",
-      "",
-      "п",
-      "о",
-      "н",
-      "и",
-      "м",
-      "а",
-      "ю",
-      "т",
-      "",
-      ",",
-      "",
-      "к",
-      "о",
-      "г",
-      "д",
-      "а",
-      "",
-      "т",
-      "ы",
-      "",
-      "г",
-      "о",
-      "в",
-      "о",
-      "р",
-      "и",
-      "ш",
-      "ь",
-      "",
-      "п",
-      "о",
-      "",
-      "-",
-      "л",
-      "и",
-      "т",
-      "о",
-      "в",
-      "с",
-      "к",
-      "и"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "Ты не понимаешь , что они отвечают ?\\ Papresta, adder mennei ast brendu etratwei tenēimans."
-    ],
-    "pr": [
-      "T",
-      "ū",
-      "",
-      "n",
-      "i",
-      "",
-      "p",
-      "a",
-      "p",
-      "r",
-      "e",
-      "s",
-      "t",
-      "a",
-      ",",
-      "",
-      "k",
-      "a",
-      "",
-      "t",
-      "e",
-      "n",
-      "ē",
-      "",
-      "i",
-      "",
-      "e",
-      "t",
-      "r",
-      "ā",
-      "",
-      "i",
-      "?",
-      "",
-      "П",
-      "о",
-      "т",
-      "о",
-      "м",
-      "у",
-      "",
-      "ч",
-      "т",
-      "о",
-      "",
-      "я",
-      "",
-      "з",
-      "н",
-      "а",
-      "ю",
-      "",
-      "[",
-      "л",
-      "и",
-      "т",
-      "о",
-      "в",
-      "с",
-      "к",
-      "и",
-      "й",
-      "",
-      "]",
-      "",
-      "н",
-      "е",
-      "",
-      "т",
-      "а",
-      "к",
-      "",
-      "х",
-      "о",
-      "р",
-      "о",
-      "ш",
-      "о"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "Ни разу не удавалось ответить ?\\ As bēi etrāwuns, adder īnsais."
-    ],
-    "pr": [
-      "N",
-      "i",
-      "a",
-      "i",
-      "n",
-      "a",
-      "n",
-      "",
-      "r",
-      "ē",
-      "",
-      "i",
-      "z",
-      "a",
-      "n",
-      "",
-      "n",
-      "i",
-      "",
-      "i",
-      "z",
-      "p",
-      "a",
-      "l",
-      "l",
-      "a",
-      "",
-      "e",
-      "t",
-      "r",
-      "ā",
-      "",
-      "t",
-      "w",
-      "e",
-      "i",
-      "?",
-      "",
-      "П",
-      "о",
-      "н",
-      "и",
-      "м",
-      "а",
-      "ю",
-      "",
-      ",",
-      "",
-      "н",
-      "о",
-      "",
-      "м",
-      "н",
-      "е",
-      "",
-      "т",
-      "р",
-      "у",
-      "д",
-      "н",
-      "о",
-      "",
-      "и",
-      "м",
-      "",
-      "о",
-      "т",
-      "в",
-      "е",
-      "ч",
-      "а",
-      "т",
-      "ь"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "Как можно так долго говорить о билетах ?\\ Tū prasī wuns kelli kainaūja billets."
-    ],
-    "pr": [
-      "K",
-      "ā",
-      "",
-      "i",
-      "g",
-      "i",
-      "",
-      "m",
-      "a",
-      "z",
-      "ī",
-      "",
-      "n",
-      "g",
-      "i",
-      "",
-      "t",
-      "ē",
-      "",
-      "t",
-      "",
-      "i",
-      "l",
-      "g",
-      "a",
-      "i",
-      "",
-      "w",
-      "a",
-      "i",
-      "t",
-      "j",
-      "ā",
-      "",
-      "t",
-      "w",
-      "e",
-      "i",
-      "",
-      "e",
-      "z",
-      "z",
-      "e",
-      "",
-      "b",
-      "i",
-      "l",
-      "l",
-      "e",
-      "t",
-      "a",
-      "n",
-      "s",
-      "?",
-      "",
-      "А",
-      "",
-      "п",
-      "о",
-      "т",
-      "о",
-      "м",
-      "",
-      "я",
-      "",
-      "т",
-      "о",
-      "ж",
-      "е",
-      "",
-      "н",
-      "е",
-      "м",
-      "н",
-      "о",
-      "г",
-      "о",
-      "",
-      "с",
-      "к",
-      "а",
-      "з",
-      "а",
-      "л",
-      "",
-      "п",
-      "о",
-      "",
-      "-",
-      "л",
-      "и",
-      "т",
-      "о",
-      "в",
-      "с",
-      "к",
-      "и"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "Там разные цены для студентов , для детей ...\\ Per malnīkans ni prawerru platītwei anga prawerru?"
-    ],
-    "pr": [
-      "S",
-      "t",
-      "w",
-      "e",
-      "n",
-      "",
-      "a",
-      "s",
-      "t",
-      "",
-      "k",
-      "i",
-      "t",
-      "a",
-      "w",
-      "ī",
-      "",
-      "d",
-      "i",
-      "s",
-      "k",
-      "a",
-      "s",
-      "",
-      "k",
-      "a",
-      "ī",
-      "",
-      "n",
-      "a",
-      "s",
-      "",
-      "p",
-      "e",
-      "r",
-      "",
-      "s",
-      "t",
-      "u",
-      "d",
-      "ē",
-      "",
-      "n",
-      "t",
-      "i",
-      "n",
-      "s",
-      ",",
-      "",
-      "p",
-      "e",
-      "r",
-      "",
-      "m",
-      "a",
-      "l",
-      "n",
-      "ī",
-      "",
-      "k",
-      "a",
-      "n",
-      "s",
-      ".",
-      ".",
-      ".",
-      "",
-      "Т",
-      "ы",
-      "",
-      "с",
-      "п",
-      "р",
-      "о",
-      "с",
-      "и",
-      "л",
-      "",
-      ",",
-      "",
-      "с",
-      "к",
-      "о",
-      "л",
-      "ь",
-      "к",
-      "о",
-      "",
-      "с",
-      "т",
-      "о",
-      "и",
-      "т",
-      "",
-      "б",
-      "и",
-      "л",
-      "е",
-      "т"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "ru": [
-      "Нужно ! Нужно по другой цене .\\ Kelli kainaū wa enlēztwei en tā liwidā snas turman?"
-    ],
-    "pr": [
-      "P",
-      "r",
-      "a",
-      "w",
-      "e",
-      "r",
-      "r",
-      "u",
-      "!",
-      "",
-      "P",
-      "r",
-      "a",
-      "w",
-      "e",
-      "r",
-      "r",
-      "u",
-      "",
-      "k",
-      "i",
-      "t",
-      "t",
-      "a",
-      "n",
-      "",
-      "k",
-      "a",
-      "ī",
-      "",
-      "n",
-      "a",
-      "n",
-      ".",
-      "",
-      "З",
-      "а",
-      "",
-      "д",
-      "е",
-      "т",
-      "е",
-      "й",
-      "",
-      "н",
-      "е",
-      "",
-      "н",
-      "у",
-      "ж",
-      "н",
-      "о",
-      "",
-      "п",
-      "л",
-      "а",
-      "т",
-      "и",
-      "т",
-      "ь",
-      "",
-      "и",
-      "л",
-      "и",
-      "",
-      "н",
-      "у",
-      "ж",
-      "н",
-      "о"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Labban dē inan"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "В обоих местах . Также в магазине .\\ Kā igi tū mēri anga zmānes papresta, kaddan tū bilā i leītawiskai"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Они начинают говорить со мной по -литовски , и тогда я : «Извините , английский ».\\ Beggi as ni tēt labbao waīda"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Tū ni papresta, ka tenēi etrāi? Потому что я знаю [литовский ] не так хорошо"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Niainan rēizan niizpalla etrā twei? Понимаю , но мне трудно им отвечать"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Ни разу не удавалось ответить ?\\ As bēi etrāwuns, adder īnsais"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Kawī da stwen bēi sitūācija, kā i prawerēi etrā twei ni īnsais, adder ilgais? Я отвечал , но короче"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Kā igi mazī ngi tēt ilgai waitjātwei ezze billetans? А потом я тоже немного сказал по -литовски"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Как можно так долго говорить о билетах ?\\ Tū prasī wuns kelli kainaūja billets"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Prawerru! Prawerru kittan kaīnan. За детей не нужно платить или нужно"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Нужно ! Нужно по другой цене .\\ Kelli kainaū wa enlēztwei en tā liwidā snas turman"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Usnadessimt eurai en tā liwidā snan. Сколько стоило подняться на телебашню"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Sta ast brendu etrātwei. Где тебе больше понравилось ? В телебашне или в музее замка Гедимина"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Tans bilā i: ast stawīds be stawīds zmā nents. Я сказала :"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Sta ast prū siska tā liwidā sna"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Mes mazzimai waitjātwei ezze stan kā igi tū bēi waī duns ezze prūsiskan billan be kawīds ast twā ise prū siskas billas pagaūsenis"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Ka tū , mazzi bū twei, widā i ainuntkwei"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Kā igi tū mē ri, kawīds ast twā ise pagaūsenis"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Pagaū senis mazīlai bū twei pirzdau ainuntkawīdans pēnkjans mettans"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "As bēi widā wuns artīkelan kwei bēi peisā tan, kā i baltiskas billas ast aīnas izwāraisjans indo-eurōpiskans billans"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Staddan as pagaū wa turītun interessan anga sta ast tikran"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Staddan as pagaū wa laukītun leītawiskan billan"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Panzdau aupalla prūsiskan billan pa kawī dans ussjans mē nsins"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Ahā , en pagaūsenji widāi artīkelan be pa kawī dans ussjans mē nsins pagaūwuns mē ritwei ezze prūsiskan"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Jā , as īr aupalluns, kā i prūsiska bilā ast giwā , kā i zmānes dabber tē rpaui stan"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Pirzdau stan as ni bēi waī duns, kā i prūsiska bilā ast giwā"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ As turē i interessan tē r ezze leītawiskan, lattawiskan, zemāitiskan"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Adder leītawiskan tū pagaūwuns makīntun si biskin ānkstais"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Be jā u mazē i ka nika bilītun leītawiskai"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Jā , adder teinū prūsiskan billan as waīda walns, nikā i leītawiskan"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Mes asmai teinū en Leī tawai"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Anga tū šandē inan bandāwuns ainuntkwei waitjā twei leītawiskai"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Jā , as bei bandāwuns"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Stawī dans gruntiskans pawīstins"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ En kawīdsmu deīktu sta bēi"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "En stesmu muzēju anga en tā liwidā snas turmu"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Tē t dīgi en kāupabutu"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Kā igi tū mēri anga zmānes papresta, kaddan tū bilā i leītawiskai"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Tenēi sēn men pagaūnja bilītun leītawiskai be staddan as: \"Sorry, English\""
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Beggi as ni tēt labbao waīda"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Tū ni papresta, ka tenēi etrāi"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Papresta, adder mennei ast brendu etratwei tenēimans"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Niainan rēizan niizpalla etrā twei"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ As bēi etrāwuns, adder īnsais"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Kawī da stwen bēi sitūācija, kā i prawerēi etrā twei ni īnsais, adder ilgais"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Stwen bēi ezze bī letins"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "Kaddan as bēi bandāwuns kāuptun billetins, as pagaū wa leītawiskai, mennei etrāi leītawiskai"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "\\ Be staddan jāu kanika prasīwuis"
-    ],
-    "note": "phrasebook: корпус диалога (RTF)"
-  },
-  {
-    "pr": [
-      "As ni kirdēi arwiskai"
+    "pr": [
+      "диалог: Labban dēinan!"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Labban dēinan!"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Sta ast prūsiska tāliwidāsna."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Mes mazzimai waitjātwei ezze stan kāigi tū bēi waīduns ezze prūsiskan billan be kawīds ast twāise prūsiskas billas pagaūsenis?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Ka tū, mazzi būtwei, widāi ainuntkwei?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Kāigi tū mēri, kawīds ast twāise pagaūsenis?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Pagaūsenis mazīlai būtwei pirzdau ainuntkawīdans pēnkjans mettans."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "As bēi widāwuns artīkelan kwei bēi peisātan, kāi baltiskas billas ast aīnas iz wāraisjans indo-eurōpiskans billans."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Staddan as pagaūwa turītun interessan anga sta ast tikran."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Staddan as pagaūwa laukītun leītawiskan billan."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Panzdau aupalla prūsiskan billan pa kawīdans ussjans mēnsins."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Ahā, en pagaūsenji widāi artīkelan be pa kawīdans ussjans mēnsins pagaūwuns mēritwei ezze prūsiskan."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Jā, as īr aupalluns, kāi prūsiska bilā ast giwā, kāi zmānes dabber tērpaui stan."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Pirzdau stan as ni bēi waīduns, kāi prūsiska bilā ast giwā."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "As turēi interessan tēr ezze leītawiskan, lattawiskan, zemāitiskan."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Adder leītawiskan tū pagaūwuns makīntun si biskin ānkstais?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Be jāu mazēi ka nika bilītun leītawiskai?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Jā, adder teinū prūsiskan billan as waīda walns, nikāi leītawiskan."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Mes asmai teinū en Leītawai."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Anga tū šandēinan bandāwuns ainuntkwei waitjātwei leītawiskai?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Jā, as bei bandāwuns."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Stawīdans gruntiskans pawīstins."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "En kawīdsmu deīktu sta bēi?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "En stesmu muzēju anga en tāliwidāsnas turmu?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Tēt dīgi en kāupabutu."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Kāigi tū mēri anga zmānes papresta, kaddan tū bilāi leītawiskai?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Tenēi sēn men pagaūnja bilītun leītawiskai be staddan as: “Sorry, English”."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Beggi as ni tēt labbao waīda."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Tū ni papresta, ka tenēi etrāi?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Papresta, adder mennei ast brendu etratwei tenēimans."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Niainan rēizan ni izpalla etrātwei?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "As bēi etrāwuns, adder īnsais."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Kawīda stwen bēi situācija, kāi prawerēi etrātwei ni īnsais, adder ilgais?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Stwen bēi ezze bīletins."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Kaddan as bēi bandāwuns kāuptun billetins, as pagaūwa leītawiskai, mennei etrāi leītawiskai."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "Be staddan jāu ka nika prasīwuis."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "pr": [
+      "As ni kirdēi arwiskai."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Stesse paggan as madlijja ēngliskai paāntrintun kā i as mazīlai paprestun"
+      "Stesse paggan as madlijja ēngliskai paāntrintun kāi as mazīlai paprestun."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Be panzdau as dīgi biskin leītawiskai"
+      "Be panzdau as dīgi biskin leītawiskai."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Kā igi mazī ngi tēt ilgai waitjātwei ezze billetans"
+      "Kāigi mazīngi tēt ilgai waitjātwei ezze billetans?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Tū prasī wuns kelli kainaūja billets"
+      "Tū prasīwuns kelli kainaūja billets."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Stwen ast kitawīdiskas kaīnas per studēntins, per malnīkans"
+      "Stwen ast kitawīdiskas kaīnas per studēntins, per malnīkans..."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Per malnīkans ni prawerru platītwei anga prawerru"
+      "Per malnīkans ni prawerru platītwei anga prawerru?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Prawerru kittan kaīnan"
+      "Prawerru kittan kaīnan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Kelli kainaū wa enlēztwei en tā liwidā snas turman"
+      "Kelli kainaūwa enlēztwei en tāliwidāsnas turman?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Usnadessimt eurai en tā liwidā snan"
+      "Usnadessimt eurai en tāliwidāsnan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ En Gedimīnas gā rbas turman stwen bēi, mennei perwaidinnas, astūnjai eurai"
+      "En Gedimīnas gārbas turman stwen bēi, mennei perwaidinnas, astõnjai eurai."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Kwei padīnga tūls"
+      "Kwei padīnga tūls?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Anga en tā liwidā snas turmu anga en Gedimīnas gā rbas muzēju"
+      "Anga en tāliwidāsnas turmu anga en Gedimīnas gārbas muzēju?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Sta ast brendu etrātwei"
+      "Sta ast brendu etrātwei."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Na Gedimīnas gā rban ast stawī dan labban panorāman, wissan ast taūwu"
+      "Na Gedimīnas gārban ast stawīdan labban panorāman, wissan ast taūwu."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Wissans buttans tū mazzi widātun taūwais"
+      "Wissans buttans tū mazzi widātun taūwais."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Adder iz tā liwidā snas turman sta wissan ast tā li"
+      "Adder iz tāliwidāsnas turman sta wissan ast tāli."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ As waīda, kā i teinū stwen ast stawī da pawīsts kā i zmānes mazzi perēitwei preisubban krakstan"
+      "As waīda, kāi teinū stwen ast stawīda pawīsts kāi zmānes mazzi perēitwei prei subban krakstan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Tū turri preiristun si kā igi en garbā mans be mazzi ē itwei preisubban krakstan"
+      "Tū turri preiristun si kāigi en garbāmans be mazzi ēitwei prei subban krakstan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Ik tū platī wuns tūls pērstan wissan be mazī ngi sindītwei be naggins dētun kāigi teinū"
+      "Ik tū platīwuns tūls pēr stan wissan be mazīngi sindītwei be naggins dētun kāigi teinū."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Tū lan zmānes ē it segītun auīmsenjan pērstan, kā i tū sīnda naturmas krakstan be tebbei ast normā lan"
+      "Tūlan zmānes ēit segītun auīmsenjan pēr stan, kāi tū sīnda na turmas krakstan be tebbei ast normālan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Nū , ast sta ni bēi bandāwuns"
+      "Nū, ast sta ni bēi bandāwuns."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Pē r stan prawerru tūls platītwei, as tēt mē ri"
+      "Pēr stan prawerru tūls platītwei, as tēt mēri."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Mennei perwaidinnas, jā , adder as īr ni kwaitī lai"
+      "Mennei perwaidinnas, jā, adder as īr ni kwaitīlai."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Kitā i zmānes dīgi mazzi sā ktwei ezze stesmu turmu sen ainuntkawīdans moderniskans pawīstins sen krūsnasširmins"
+      "Kitāi zmānes dīgi mazzi sāktwei ezze stesmu turmu sen ainuntkawīdans moderniskans pawīstins sen krūsnasširmins."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ As ni waīda kā igi wissan stan ast bilītan"
+      "As ni waīda kāigi wissan stan ast bilītan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Teinū ast spārts tūlan wisawīdiskai"
+      "Teinū ast spārts tūlan wisawīdiskai..."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ As bēi widā wuns plakā tan, ka tū gērdawuns ezze auīmsenjans"
+      "As bēi widāwuns plakātan, ka tū gērdawuns ezze auīmsenjans."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Ik etwartīntun si prei stan tēman ezze twā ise pagaūsenjan"
+      "Ik etwartīntun si prei stan tēman ezze twāise pagaūsenjan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Stwen tū en Madā nai"
+      "Stwen tū en Madānai."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "En kawīdsei regiūnei sta ast"
+      "En kawīdsei regiõnei sta ast?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Prei arā ikan sen Lattigalan"
+      "Prei arāikan sen Lattigalan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Mazzi bū twei en stesmu deīktu tū ni spāts tūlan ka mazē i widātun, as bilāi, en izarwisku ezze prūsans"
+      "Mazzi būtwei en stesmu deīktu tū ni spāts tūlan ka mazēi widātun, as bilāi, en izarwisku ezze prūsans."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Sta ast ainawīdan interessanti, beggi kaddan zmānes mennei bilāi ezze stan subban sta ast prasīsenis kawīds bēi māise pagaūsenis"
+      "Sta ast ainawīdan interessanti, beggi kaddan zmānes mennei bilāi ezze stan subban sta ast prasīsenis kawīds bēi māise pagaūsenis."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Adder as ni maazi etrā twei, beggi as ni turēi pagaūsenjan"
+      "Adder as ni maazi etrātwei, beggi as ni turēi pagaūsenjan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Stesse paggan mennei ast interessanti prasī tun iz kittans zmā nins kā igi tenēi pagaūwusis"
+      "Stesse paggan mennei ast interessanti prasītun iz kittans zmānins kāigi tenēi pagaūwusis."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Tū prastai widāi artīkelan, jā"
+      "Tū prastai widāi artīkelan, jā?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Prei pirman jā , as widāi artīkelan"
+      "Prei pirman jā, as widāi artīkelan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Be as kwaitē i erzinātun anga sta ast tikran anga ni"
+      "Be as kwaitēi erzinātun anga sta ast tikran anga ni."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Staddan as pagaū wa laukītun wī rdans iz baltiskans billans be iz sanskrtitan iz kittans indo-eurōpiskans billans"
+      "Staddan as pagaūwa laukītun wīrdans iz baltiskans billans be iz sanskrtitan iz kittans indo-eurōpiskans billans."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Be paussjans mē nsins as aupalluns, kā i prūsiska bilā ast giwā"
+      "Be pa ussjans mēnsins as aupalluns, kāi prūsiska bilā ast giwā."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Stawī ds prasts pagaūsenis"
+      "Stawīds prasts pagaūsenis."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Tū wī da, kaddan as bei mālds mes dabber ni turēimai internettan en stans kērdans"
+      "Tū wīda, kaddan as bei mālds mes dabber ni turēimai internettan en stans kērdans."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Prawerē i laukītun appuns, informā cijan iz gīwans zmā nins anga iz lāiskans"
+      "Prawerēi laukītun appuns, informācijan iz gīwans zmānins anga iz lāiskans."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Stesse paggan wissan bēi kitawīdiskan"
+      "Stesse paggan wissan bēi kitawīdiskan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Prawerē i prasī tun ainuntan gīwan anga tāns waīda ezze stan"
+      "Prawerēi prasītun ainuntan gīwan anga tāns waīda ezze stan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Perwaidinnas, spārts brendu"
+      "Perwaidinnas, spārts brendu!"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ As turē i lāiskan ezze prūsiskan grammatikin be mennei ni bēi eīsku"
+      "As turēi lāiskan ezze prūsiskan grammatikin be mennei ni bēi eīsku."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Lā isks ni ast gīws, lāisks ast pawīsts"
+      "Lāisks ni ast gīws, lāisks ast pawīsts."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Be as mēri anga sta ast gī wan pawīstin anga zmānes waitjā i anga sta ast tēr teōrija"
+      "Be as mēri anga sta ast gīwan pawīstin anga zmānes waitjāi anga sta ast tēr teōrija."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Be ezze stan as mēriwuns kā igi mennei paprestun stan"
+      "Be ezze stan as mēriwuns kāigi mennei paprestun stan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Be aīnan rēizan as jā wuns sen tensīljan be ezzestan wissan as pagaūwuns waitjā twei sen aīnan zmā nin"
+      "Be aīnan rēizan as jāwuns sen tensīljan be ezze stan wissan as pagaūwuns waitjātwei sen aīnan zmānin."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Kelli mettans tū staddan turē i"
+      "Kelli mettans tū staddan turēi?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Mazzi bū twei septinnadesimt, astō nadesimt, ka nika stawī dan"
+      "Mazzi būtwei septinnadesimt, astōnadesimt, ka nika stawīdan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Be as jā u kawī dan kē rdan ezze stan mēriwuns adder ni waī duns kā igi mennei sta aupaltun"
+      "Be as jāu kawīdan kērdan ezze stan mēriwuns adder ni waīduns kāigi mennei sta aupaltun."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Tū wī da, kā i en lā isku ast adressi"
+      "Tū wīda, kāi en lāisku ast adressi."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Prawerru ī mtun papīran, peisātun pē ismen, mestun pē ismen en kastenan be gēistwei na etrā senjan"
+      "Prawerru īmtun papīran, peisātun pēismen, mestun pēismen en kastenan be gēistwei na etrāsenjan."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Adder sta ast spārts ilgai be as ni waīda stans zmā nins"
+      "Adder sta ast spārts ilgai be as ni waīda stans zmānins."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Be biskin bajjawiskan peisātun ainuntkwei, ka nika prasī tun"
+      "Be biskin bajjawiskan peisātun ainuntkwei, ka nika prasītun."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ As jā wuns aīnan rēizan en tensī lju"
+      "As jāwuns aīnan rēizan en tensīlju."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "As pagaūwuns waitjā twei sen ainuntan zmānin ezze stan prōbleman"
+      "As pagaūwuns waitjātwei sen ainuntan zmānin ezze stan prōbleman."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Be stas zmānents gerdawuns: jā as waīda, kā i bilāi as subs bēi widā wuns"
+      "Be stas zmānents gerdawuns: jā as waīda, kāi bilāi as subs bēi widāwuns."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ As bilā i: - Kā igi"
+      "As bilāi: - Kāigi!"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Kwē i"
+      "Kwēi?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Tans bilā i: ast stawīds be stawīds zmā nents"
+      "Tans bilāi: ast stawīds be stawīds zmānents."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Tā ns bēi stwen"
+      "Tāns bēi stwen."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "Panzdau tans izgūbuns en gatwin telepōnitwei"
+      "Panzdau tans izgūbuns en gatwin telepōnitwei."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "pr": [
-      "\\ Mazzi bū twei, tū ni waīda, kā iānkstais prawerēiē itwei en telepōnas būdan"
+      "Mazzi būtwei, tū ni waīda, kāi ānkstais prawerēi ēitwei en telepōnas būdan."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "ru": [
+      "Добрый день!"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "ru": [
+      "Это прусское телевидение."
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "ru": [
+      "Мы можем поговорить о том, как ты узнал о прусском языке и каким было твое начало в прусском языке?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "ru": [
+      "Когда это случилось?"
+    ],
+    "note": "phrasebook: корпус диалога (clean text)"
+  },
+  {
+    "ru": [
+      "Что ты, может быть, где-то увидел?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Мы можем поговорить о том , как ты узнал о прусском языке и каким было твое начало в прусском языке"
+      "Как ты думаешь, каким было твое начало?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Что ты , может быть , где -то увидел"
+      "Начало могло быть около 5 лет назад."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Как ты думаешь , каким было твое начало"
+      "Я видел статью, где было написано, что балтийские языки"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Начало могло быть около 5 лет назад"
+      "одни из старейших индоевропейских языков."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Я видел статью , где было написано , что балтийские языки"
+      "Тогда я начал интересоваться, правда ли это."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "одни из старейших индоевропейских языков"
+      "Затем я начал искать информацию о литовском языке."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Тогда я начал интересоваться , правда ли это"
+      "Затем, спустя примерно 6 месяцев, я нашел прусский язык."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Затем я начал искать информацию о литовском языке"
+      "Ага, в начале ты увидел статью, а через 6 месяцев начал думать о прусском."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Затем , спустя примерно 6 месяцев , я нашел прусский язык"
+      "Да, я обнаружил, что прусский язык жив, что люди все еще используют его."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ага , в начале ты увидел статью , а через 6 месяцев начал думать о прусском"
+      "До этого я не знал, что прусский язык жив."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Да , я обнаружил , что прусский язык жив , что люди все еще используют его"
+      "У меня был интерес только к литовскому, латышскому и жемайтскому языкам."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "До этого я не знал , что прусский язык жив"
+      "Но литовский ты начал учить немного раньше?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "У меня был интерес только к литовскому , латышскому и жемайтскому языкам"
+      "И ты уже мог как-то говорить по-литовски?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Но литовский ты начал учить немного раньше"
+      "Да, но сейчас я знаю прусский язык лучше, чем литовский."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И ты уже мог как -то говорить по -литовски"
+      "Мы сейчас находимся в Литве."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Да , но сейчас я знаю прусский язык лучше , чем литовский"
+      "Ты пробовал сегодня где-нибудь говорить по-литовски?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Мы сейчас находимся в Литве"
+      "Такие основные вещи."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ты пробовал сегодня где -нибудь говорить по -литовски"
+      "В каком месте это было?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "В каком месте это было"
+      "Как ты думаешь, люди понимают, когда ты говоришь по-литовски?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Как ты думаешь , люди понимают , когда ты говоришь по -литовски"
+      "Ты не понимаешь, что они отвечают?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ты не понимаешь , что они отвечают"
+      "Какая там была ситуация, когда тебе нужно было ответить не коротко, а длиннее?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Какая там была ситуация , когда тебе нужно было ответить не коротко , а длиннее"
+      "Это было связано с билетами."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Это было связано с билетами"
+      "Когда я пытался купить билеты, я начал по-литовски, мне ответили по-литовски."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Когда я пытался купить билеты , я начал по -литовски , мне ответили по -литовски"
+      "Я не совсем расслышал."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Я не совсем расслышал"
+      "Поэтому я попросил повторить по-английски, чтобы я мог понять."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Поэтому я попросил повторить по -английски , чтобы я мог понять"
+      "Ты спросил, сколько стоит билет."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ты спросил , сколько стоит билет"
+      "Там разные цены для студентов, для детей..."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Там разные цены для студентов , для детей"
+      "В башню на холме Гедимина, кажется, было 8 евро."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "В башню на холме Гедимина , кажется , было 8 евро"
+      "На это трудно ответить."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "На холме Гедимина такой хороший вид , всё близко"
+      "На холме Гедимина такой хороший вид, всё близко."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Но из телебашни всё это далеко"
+      "Но из телебашни всё это далеко."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ты должен привязать себя , как в горах , и можешь идти к самому краю"
+      "Ты должен привязать себя, как в горах, и можешь идти к самому краю."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Если ты заплатил за все это больше , то можно сидеть и свесить ноги , как сейчас"
+      "Если ты заплатил за все это больше, то можно сидеть и свесить ноги, как сейчас."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Многие люди идут делать фото , где ты сидишь на краю башни и тебе это нормально"
+      "Многие люди идут делать фото, где ты сидишь на краю башни и тебе это нормально."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ну , я не пробовал это делать"
+      "Ну, я не пробовал это делать."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "За это нужно платить больше , я так думаю"
+      "За это нужно платить больше, я так думаю."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Мне кажется , да , но я бы в любом случае не захотел этого"
+      "Мне кажется, да, но я бы в любом случае не захотел этого."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Другие люди также могут прыгать с этой башни с какими -то современными штуками , с парашютами"
+      "Другие люди также могут прыгать с этой башни с какими-то современными штуками, с парашютами."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Я не знаю , как всё это называется"
+      "Я не знаю, как всё это называется."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Я видел плакат , о котором ты говорил , про фото"
+      "Я видел плакат, о котором ты говорил, про фото."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ты там , в городе Мадона"
+      "Ты там, в городе Мадона."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "В каком это регионе"
+      "В каком это регионе?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Может быть , в том месте ты не так много мог увидеть , я имею в виду , в реальности о пруссах"
+      "Может быть, в том месте ты не так много мог увидеть, я имею в виду, в реальности о пруссах."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Это в любом случае интересно , потому что когда люди говорят мне о том же самом , возникает вопрос , каким было моё начало"
+      "Это в любом случае интересно, потому что когда люди говорят мне о том же самом, возникает вопрос, каким было моё начало."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Но я не могу ответить , потому что у меня не было начала [в смысле определенного момента ]"
+      "Но я не могу ответить, потому что у меня не было начала [в смысле определенного момента]."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Поэтому мне интересно спрашивать других людей , как они начали"
+      "Поэтому мне интересно спрашивать других людей, как они начали."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Ты просто увидел статью , да"
+      "Ты просто увидел статью, да?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И я захотел узнать , правда это или нет"
+      "И я захотел узнать, правда это или нет."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Затем я начал искать слова в балтийских языках , в санскрите и в других индоевропейских языках"
+      "Затем я начал искать слова в балтийских языках, в санскрите и в других индоевропейских языках."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И через 6 месяцев я обнаружил , что прусский язык жив"
+      "И через 6 месяцев я обнаружил, что прусский язык жив."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Видишь ли , когда я была молодой , у нас в те времена еще не было интернета"
+      "Видишь ли, когда я была молодой, у нас в те времена еще не было интернета."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Нужно было искать источники , информацию от живых людей или из книг"
+      "Нужно было искать источники, информацию от живых людей или из книг."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Поэтому всё было по -другому"
+      "Поэтому всё было по-другому."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Нужно было спрашивать кого -то живого , знает ли он об этом"
+      "Нужно было спрашивать кого-то живого, знает ли он об этом."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "У меня была книга по прусской грамматике , и мне было неясно"
+      "У меня была книга по прусской грамматике, и мне было неясно."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "это вещь"
+      "это вещь."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И я думала , живое ли это дело , говорят ли люди или это только теория"
+      "И я думала, живое ли это дело, говорят ли люди или это только теория."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И об этом я думала , как мне это понять"
+      "И об этом я думала, как мне это понять."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И однажды я ехала на поезде и обо всём этом начала говорить с одним человеком"
+      "И однажды я ехала на поезде и обо всём этом начала говорить с одним человеком."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Сколько лет тебе тогда было"
+      "Сколько лет тебе тогда было?"
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Может быть , 17, 18 или что -то в этом роде"
+      "Может быть, 17, 18 или что-то в этом роде."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И я уже некоторое время об этом думала , но не знала , как мне это найти"
+      "И я уже некоторое время об этом думала, но не знала, как мне это найти."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Но это очень долго , и я не знаю этих людей"
+      "Но это очень долго, и я не знаю этих людей."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Однажды я ехала в поезде"
+      "Однажды я ехала в поезде."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Я начала говорить с каким -то человеком об этой проблеме"
+      "Я начала говорить с каким-то человеком об этой проблеме."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "И этот человек сказал : да , я знаю , что они говорят , я сам видел"
+      "И этот человек сказал: да, я знаю, что они говорят, я сам видел."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Он был там"
+      "Он был там."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Затем он вышел на улицу , чтобы позвонить"
+      "Затем он вышел на улицу, чтобы позвонить."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   },
   {
     "ru": [
-      "Может быть , ты не знаешь , что раньше нужно было идти в телефонную будку"
+      "Может быть, ты не знаешь, что раньше нужно было идти в телефонную будку."
     ],
-    "note": "phrasebook: корпус диалога (RTF)"
+    "note": "phrasebook: корпус диалога (clean text)"
   }
 ]
