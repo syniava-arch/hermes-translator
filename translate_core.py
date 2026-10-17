@@ -68,6 +68,10 @@ _pr_index = {}          # точная форма (в нижнем регист�
 _pr_index_folded = {}   # то же, но без макронов - запасной вариант поиска
 _pr_max_phrase_words = 1
 
+# Кванторы, управляющие родительным падежом множественного числа:
+# "delli kittans passas" -> "несколько других паспортов".
+PR_GEN_PL_QUANTIFIERS = {"delli"}
+
 # Русские варианты предлогов перед словами с беглой гласной: словарь обычно
 # хранит базовую форму ("с", "в", "к"), а пользователь пишет "со", "во",
 # "ко" и т.п. Нормализуем только для поиска, в отладке оставляем ввод.
@@ -231,6 +235,9 @@ def _load_phrasebook(phrasebook_json_str):
             continue
         ru_values = item.get("ru") or item.get("source") or item.get("from")
         out = item.get("pr") or item.get("out") or item.get("to")
+        if isinstance(out, list):
+            # в данных 'pr' иногда лежит список вариантов — берём первый
+            out = out[0] if out else ""
         if not ru_values or not out:
             continue
         if isinstance(ru_values, str):
@@ -1061,7 +1068,7 @@ def _ru_verb_form(gloss, label, subject_gender=None):
     return inflected.word if inflected else None
 
 
-def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_gender=None):
+def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_gender=None, num_government=False):
     """Возвращает (русское_слово, заметку) для статьи словаря, по
     возможности согласовав русское слово с распознанной грамматической
     формой. В отличие от ранней версии, не переносит прусский род на русские
@@ -1089,6 +1096,48 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
     # "в 1273 году". Это частый случай для mettan.
     if gloss == "год" and forced_case == "loct":
         return "году", note_form
+
+    # Числительное управляет родительным падежом множественного числа:
+    # "750 mettans" -> "750 лет", а не "750 годы". У существительных род
+    # задаёт лемма, поэтому его намеренно не добавляем.
+    if num_government and pos in ("NOUN", "NPRO", "ADJF", "PRTF", "NUMR") \
+            and (entry.get("w") or "").lower() not in PR_GEN_PL_QUANTIFIERS:
+        if gloss == "год":
+            return "лет", note_form
+        grammemes = {"gent", "plur"}
+        if pos in ("ADJF", "PRTF") and _label_grammar(label).get("gender"):
+            grammemes.add(_label_grammar(label)["gender"])
+        p = morph.parse(gloss)[0]
+        try:
+            inflected = p.inflect(grammemes)
+        except Exception:
+            inflected = None
+        if inflected:
+            return inflected.word, note_form
+
+    # Причастия: метка вида "participles.genders.masc.sg.nom" не содержит
+    # времени, поэтому _ru_verb_form возвращал None и оставался инфинитив
+    # ("aulaūwuns" -> "умереть" вместо "умерший").
+    if "participles" in label:
+        p = morph.parse(gloss)[0]
+        info = _label_grammar(label)
+        grammemes = {"PRTF", "past"}
+        if info.get("number"):
+            grammemes.add(info["number"])
+        else:
+            grammemes.add("sing")  # без числа в метке pymorphy3 берёт plural
+        if info.get("gender"):
+            grammemes.add(info["gender"])
+        else:
+            grammemes.add("masc")
+        if info.get("ru_case"):
+            grammemes.add(info["ru_case"])
+        try:
+            inflected = p.inflect(grammemes)
+        except Exception:
+            inflected = None
+        if inflected:
+            return inflected.word, note_form
 
     if pos == "VERB":
         verb = _ru_verb_form(gloss, label, subject_gender=subject_gender)
@@ -1447,6 +1496,7 @@ def translate_pr_sentence_json(sentence):
     out_words, debug = [], []
     pending_ru_case = None       # русский падеж после прусского предлога
     subject_agreement = None     # подлежащее для выбора лица/числа глагола
+    pending_number = False       # предыдущий токен — числительное/квантор (gen.pl)
     i = 0
     n = len(tokens)
     while i < n:
@@ -1455,6 +1505,7 @@ def translate_pr_sentence_json(sentence):
             if not (out_words and str(out_words[-1]).endswith(tok)):
                 out_words.append(tok)
             pending_ru_case = None
+            pending_number = False
             # Запятая часто отделяет приложение: подлежащее сохраняем, точка — нет.
             if tok in ".!?":
                 subject_agreement = None
@@ -1465,8 +1516,11 @@ def translate_pr_sentence_json(sentence):
         if clean.isdigit():
             out_words.append(tok)
             debug.append({"src": tok, "out": tok, "note": "число"})
+            pending_number = True
             i += 1
             continue
+        if clean.lower() in PR_GEN_PL_QUANTIFIERS:
+            pending_number = True
 
         phrase = _match_pr_phrase(tokens, i)
         if phrase:
@@ -1503,6 +1557,7 @@ def translate_pr_sentence_json(sentence):
             next_case = _next_pr_case(tokens, i)
             entry, label = _select_pr_preposition_sense(clean, next_case, (entry, label))
             pending_ru_case = _ru_case_after_pr_preposition(clean, next_case)
+            pending_number = False
             gloss, note = _ru_gloss_for_entry(entry, label)
             if not next_case:
                 # нет следующего слова (или его падеж не определить) - значит,
@@ -1524,6 +1579,7 @@ def translate_pr_sentence_json(sentence):
             forced_case=pending_ru_case,
             agreement=agreement,
             subject_gender=(subject_agreement or {}).get("gender"),
+            num_government=pending_number,
         )
         out_words.append(gloss)
         debug.append({"src": tok, "out": gloss, "note": f"{entry.get('w')}: {note}"})
@@ -1539,9 +1595,10 @@ def translate_pr_sentence_json(sentence):
         elif pos == "VERB":
             # После сказуемого подлежащее уже использовано, но его род может
             # понадобиться только для этого глагола.
-            pass
+            pending_number = False
         elif pos in ("CONJ", "PRCL", "INTJ"):
             pending_ru_case = None
+            pending_number = False
 
         i += 1
 
