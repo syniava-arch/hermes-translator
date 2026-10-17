@@ -5,8 +5,8 @@
   "dictionary": {
     "source": "../dictionary.json",
     "items": 10828,
-    "sourceBytes": 3184422,
-    "sourceSha256": "9ee0e1534a1b0bfb3ffc0e7a575067c922263acf9cf68ae7116c2583754354f1",
+    "sourceBytes": 2534737,
+    "sourceSha256": "c460f40cb736885938b7cc76c4349315c58d96186a5d26321250eb74d6a04472",
     "shards": [
       {
         "path": "dictionary/000.json",
@@ -21,7 +21,7 @@
       {
         "path": "dictionary/002.json",
         "items": 2608,
-        "bytes": 614324
+        "bytes": 614320
       },
       {
         "path": "dictionary/003.json",
