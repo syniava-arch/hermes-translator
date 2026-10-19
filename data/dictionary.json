@@ -173246,5 +173246,415 @@
     "lv": "it kā nekas nebūtu bijis, it kā nekas nebūtu noticis",
     "pl": "jakby nigdy nic, jak gdyby nic, w najlepsze",
     "ru": "как ни в чём не бывало, как бы невзначай"
+  },
+  {
+    "w": "Baidāts",
+    "ru": "Baidāts",
+    "i": 10917
+  },
+  {
+    "w": "Bandāts",
+    "ru": "Bandāts",
+    "i": 10918
+  },
+  {
+    "w": "Barislā",
+    "ru": "Barislā",
+    "i": 10919
+  },
+  {
+    "w": "Barrins",
+    "ru": "Barrins",
+    "i": 10920
+  },
+  {
+    "w": "Barts",
+    "ru": "Barts",
+    "i": 10921
+  },
+  {
+    "w": "Bijāts",
+    "ru": "Bijāts",
+    "i": 10922
+  },
+  {
+    "w": "Bukkins",
+    "ru": "Bukkins",
+    "i": 10923
+  },
+  {
+    "w": "Bānds",
+    "ru": "Bānds",
+    "i": 10924
+  },
+  {
+    "w": "Bāudels",
+    "ru": "Bāudels",
+    "i": 10925
+  },
+  {
+    "w": "Dingūns",
+    "ru": "Dingūns",
+    "i": 10926
+  },
+  {
+    "w": "Dits",
+    "ru": "Dits",
+    "i": 10927
+  },
+  {
+    "w": "Dīwans",
+    "ru": "Dīwans",
+    "i": 10928
+  },
+  {
+    "w": "Glabāts",
+    "ru": "Glabāts",
+    "i": 10929
+  },
+  {
+    "w": "Glabūns",
+    "ru": "Glabūns",
+    "i": 10930
+  },
+  {
+    "w": "Glāmzis",
+    "ru": "Glāmzis",
+    "i": 10931
+  },
+  {
+    "w": "Glānds",
+    "ru": "Glānds",
+    "i": 10932
+  },
+  {
+    "w": "Graziks",
+    "ru": "Graziks",
+    "i": 10933
+  },
+  {
+    "w": "Gēidauts",
+    "ru": "Gēidauts",
+    "i": 10934
+  },
+  {
+    "w": "Gīrdis",
+    "ru": "Gīrdis",
+    "i": 10935
+  },
+  {
+    "w": "Izbandāwingi",
+    "ru": "Izbandāwingi",
+    "i": 10936
+  },
+  {
+    "w": "Jakkels",
+    "ru": "Jakkels",
+    "i": 10937
+  },
+  {
+    "w": "Jōrgs",
+    "ru": "Jōrgs",
+    "i": 10938
+  },
+  {
+    "w": "Kikennis",
+    "ru": "Kikennis",
+    "i": 10939
+  },
+  {
+    "w": "Klaūks",
+    "ru": "Klaūks",
+    "i": 10940
+  },
+  {
+    "w": "Klaūws",
+    "ru": "Klaūws",
+    "i": 10941
+  },
+  {
+    "w": "Kombinācijas",
+    "ru": "Kombinācijas",
+    "i": 10942
+  },
+  {
+    "w": "Kreks",
+    "ru": "Kreks",
+    "i": 10943
+  },
+  {
+    "w": "Kunts",
+    "ru": "Kunts",
+    "i": 10944
+  },
+  {
+    "w": "Kāntila",
+    "ru": "Kāntila",
+    "i": 10945
+  },
+  {
+    "w": "Kērwiks",
+    "ru": "Kērwiks",
+    "i": 10946
+  },
+  {
+    "w": "Kīkels",
+    "ru": "Kīkels",
+    "i": 10947
+  },
+  {
+    "w": "Lāiks",
+    "ru": "Lāiks",
+    "i": 10948
+  },
+  {
+    "w": "Lāims",
+    "ru": "Lāims",
+    "i": 10949
+  },
+  {
+    "w": "Maldennis",
+    "ru": "Maldennis",
+    "i": 10950
+  },
+  {
+    "w": "Mazzints",
+    "ru": "Mazzints",
+    "i": 10951
+  },
+  {
+    "w": "Mazūns",
+    "ru": "Mazūns",
+    "i": 10952
+  },
+  {
+    "w": "Milagāuds",
+    "ru": "Milagāuds",
+    "i": 10953
+  },
+  {
+    "w": "Milagēidis",
+    "ru": "Milagēidis",
+    "i": 10954
+  },
+  {
+    "w": "Māins",
+    "ru": "Māins",
+    "i": 10955
+  },
+  {
+    "w": "Māisels",
+    "ru": "Māisels",
+    "i": 10956
+  },
+  {
+    "w": "Mēraws",
+    "ru": "Mēraws",
+    "i": 10957
+  },
+  {
+    "w": "Mīldiks",
+    "ru": "Mīldiks",
+    "i": 10958
+  },
+  {
+    "w": "Naistuttis",
+    "ru": "Naistuttis",
+    "i": 10959
+  },
+  {
+    "w": "Nāsins",
+    "ru": "Nāsins",
+    "i": 10960
+  },
+  {
+    "w": "Nāskars",
+    "ru": "Nāskars",
+    "i": 10961
+  },
+  {
+    "w": "Nōmegs",
+    "ru": "Nōmegs",
+    "i": 10962
+  },
+  {
+    "w": "Pannints",
+    "ru": "Pannints",
+    "i": 10963
+  },
+  {
+    "w": "Patūlni",
+    "ru": "Patūlni",
+    "i": 10964
+  },
+  {
+    "w": "Pawīrsis",
+    "ru": "Pawīrsis",
+    "i": 10965
+  },
+  {
+    "w": "Pets",
+    "ru": "Pets",
+    "i": 10966
+  },
+  {
+    "w": "Prēidars",
+    "ru": "Prēidars",
+    "i": 10967
+  },
+  {
+    "w": "Prēidaws",
+    "ru": "Prēidaws",
+    "i": 10968
+  },
+  {
+    "w": "Pāsings",
+    "ru": "Pāsings",
+    "i": 10969
+  },
+  {
+    "w": "Rassagāuds",
+    "ru": "Rassagāuds",
+    "i": 10970
+  },
+  {
+    "w": "Reggars",
+    "ru": "Reggars",
+    "i": 10971
+  },
+  {
+    "w": "Rāmbits",
+    "ru": "Rāmbits",
+    "i": 10972
+  },
+  {
+    "w": "Rōzins",
+    "ru": "Rōzins",
+    "i": 10973
+  },
+  {
+    "w": "Samburs",
+    "ru": "Samburs",
+    "i": 10974
+  },
+  {
+    "w": "Santappins",
+    "ru": "Santappins",
+    "i": 10975
+  },
+  {
+    "w": "Skāmants",
+    "ru": "Skāmants",
+    "i": 10976
+  },
+  {
+    "w": "Spandennis",
+    "ru": "Spandennis",
+    "i": 10977
+  },
+  {
+    "w": "Tlākins",
+    "ru": "Tlākins",
+    "i": 10978
+  },
+  {
+    "w": "Tlākis",
+    "ru": "Tlākis",
+    "i": 10979
+  },
+  {
+    "w": "Tāutas",
+    "ru": "Tāutas",
+    "i": 10980
+  },
+  {
+    "w": "Tēmparins",
+    "ru": "Tēmparins",
+    "i": 10981
+  },
+  {
+    "w": "Tīnakins",
+    "ru": "Tīnakins",
+    "i": 10982
+  },
+  {
+    "w": "Tūlniks",
+    "ru": "Tūlniks",
+    "i": 10983
+  },
+  {
+    "w": "Tūlnis",
+    "ru": "Tūlnis",
+    "i": 10984
+  },
+  {
+    "w": "Tūnga",
+    "ru": "Tūnga",
+    "i": 10985
+  },
+  {
+    "w": "Tūngs",
+    "ru": "Tūngs",
+    "i": 10986
+  },
+  {
+    "w": "Williks",
+    "ru": "Williks",
+    "i": 10987
+  },
+  {
+    "w": "Wīlks",
+    "ru": "Wīlks",
+    "i": 10988
+  },
+  {
+    "w": "billas",
+    "ru": "billas",
+    "i": 10989
+  },
+  {
+    "w": "dōkumentans",
+    "ru": "dōkumentans",
+    "i": 10990
+  },
+  {
+    "w": "en",
+    "ru": "en",
+    "i": 10991
+  },
+  {
+    "w": "istōriskans",
+    "ru": "istōriskans",
+    "i": 10992
+  },
+  {
+    "w": "nadasnā",
+    "ru": "nadasnā",
+    "i": 10993
+  },
+  {
+    "w": "seimisemnin",
+    "ru": "seimisemnin",
+    "i": 10994
+  },
+  {
+    "w": "Āniks",
+    "ru": "Āniks",
+    "i": 10995
+  },
+  {
+    "w": "Ānkars",
+    "ru": "Ānkars",
+    "i": 10996
+  },
+  {
+    "w": "Āuleps",
+    "ru": "Āuleps",
+    "i": 10997
+  },
+  {
+    "w": "Ēiwans",
+    "ru": "Ēiwans",
+    "i": 10998
   }
 ]
