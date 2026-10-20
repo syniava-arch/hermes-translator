@@ -67,6 +67,13 @@ _ru_max_phrase_words = 1
 _pr_index = {}          # точная форма (в нижнем регистре) -> [(entry, label), ...]
 _pr_index_folded = {}   # то же, но без макронов - запасной вариант поиска
 _pr_max_phrase_words = 1
+_propernames = {}                 # lemma(lower) -> entry (PN-словарь)
+_propername_lemma_index = {}      # любая форма/алиас имени (lower) -> entry
+_propername_form_index = {}       # pr-форма(lower) -> (entry, number["sg"|"pl"], pr_case)
+# Соответствие падежной метки в propernames.json и pymorphy-граммемы.
+_PR_CASE_TO_RU = {"nom": "nomn", "gen": "gent", "dat": "datv",
+                  "akk": "accs", "ins": "ablt", "prl": "loct"}
+_RU_TO_PR_CASE = {v: k for k, v in _PR_CASE_TO_RU.items()}
 
 # Кванторы, управляющие родительным падежом множественного числа:
 # "delli kittans passas" -> "несколько других паспортов".
@@ -359,13 +366,13 @@ def _synthesize_fresh_entries(dictionary, overrides):
     return fresh
 
 
-def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None, priorities_json_str=None):
-    global _ru_index, _override_by_id, _preposition_index, _pr_preposition_senses, _phrasebook, _pr_to_ru_priority, _ru_to_pr_priority, _ru_max_phrase_words
-    global _pr_index, _pr_index_folded, _pr_max_phrase_words
+def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None, priorities_json_str=None, propernames_json_str=None):
+    global _ru_index, _override_by_id, _preposition_index, _pr_preposition_senses, _phrasebook, _pr_to_ru_priority, _ru_to_pr_priority, _ru_max_phrase_words, _pr_index, _pr_index_folded, _pr_max_phrase_words, _propernames, _propername_lemma_index, _propername_form_index
     dictionary = json.loads(dictionary_json_str)
     overrides = json.loads(overrides_json_str)
     _phrasebook, phrasebook_max_words = _load_phrasebook(phrasebook_json_str)
     _pr_to_ru_priority, _ru_to_pr_priority = _load_priorities(priorities_json_str)
+    _build_propername_index(propernames_json_str)
 
     _override_by_id = {o["id"]: o for o in overrides if "id" in o}
 
@@ -451,7 +458,7 @@ def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None,
         pr_index_folded.setdefault(fold_diacritics(form_lower), []).extend(matches)
     _pr_index_folded = pr_index_folded
 
-    return {"words": len(dictionary), "overrides": len(_override_by_id), "prepositions": len(preposition_index), "phrases": len(_phrasebook)}
+    return {"words": len(dictionary), "overrides": len(_override_by_id), "prepositions": len(preposition_index), "phrases": len(_phrasebook), "propernames": len(_propernames)}
 
 
 def pick_noun_form(override, gender_guess, number, case):
@@ -1265,6 +1272,94 @@ def _lookup_pr(clean_key):
     return _select_pr_match(clean_key)
 
 
+def _build_propername_index(propernames_json_str):
+    """Индексирует data/propernames.json.
+
+    lemma/алиасы  -> entry;  pr-форма (в нижнем регистре) -> (entry, number, pr_case).
+    Это покрытие для имён, которых нет в dictionary.json: позволяет отдавать
+    заранее просчитанную русскую форму и склонять имя в любой падеж/число по
+    таблице, минуя ненадёжную pymorphy3‑инфлексию собственных имён."""
+    global _propernames, _propername_lemma_index, _propername_form_index
+    _propernames, _propername_lemma_index, _propername_form_index = {}, {}, {}
+    if not propernames_json_str:
+        return
+    try:
+        data = json.loads(propernames_json_str)
+    except Exception:
+        return
+    if isinstance(data, dict):
+        data = [data]
+    if not isinstance(data, list):
+        return
+    for entry in data:
+        lemma = (entry.get("lemma") or "").lower()
+        if not lemma:
+            continue
+        entry_l = dict(entry)
+        _propernames[lemma] = entry_l
+        keys = [lemma] + [a.lower() for a in (entry.get("aliases") or []) if a]
+        for k in keys:
+            _propername_lemma_index[k] = entry_l
+        pr = entry.get("pr") or {}
+        for num_key, cases in pr.items():            # "sg" | "pl"
+            num = "pl" if "pl" in num_key.lower() else "sg"
+            for pr_case, form in cases.items():       # "nom"/"gen"/...
+                form_lower = (form or "").lower()
+                if form_lower:
+                    _propername_form_index[form_lower] = (entry_l, num, pr_case)
+
+
+def _lookup_propername(clean_token):
+    """Возвращает (entry, number['sg'|'pl'], pr_case) для собственного имени,
+    либо None. clean_token уже нижнего регистра (результат _clean_pr_token)."""
+    entry = _propername_lemma_index.get(clean_token)
+    if entry:
+        return entry, "sg", "nom"
+    return _propername_form_index.get(clean_token)
+
+
+def _render_propername(token, forced_case=None, agreement=None):
+    """Русская форма собственного имени с учётом падежа/числа.
+
+    forced_case  — pymorphy‑граммема (nomn/gent/datv/...), принятая от предлога;
+    agreement    — {'case','number','gender'} от согласования со существительным.
+    Приоритет падежа: forced_case > падеж найденной pr‑формы > agreement > nomn.
+    """
+    hit = _lookup_propername(_clean_pr_token(token))
+    if not hit:
+        return None
+    entry, num, pr_case = hit
+    target_ru_case = (
+        forced_case
+        or _PR_CASE_TO_RU.get(pr_case)
+        or (agreement or {}).get("case")
+        or "nomn"
+    )
+    target_num = (agreement or {}).get("number") or num
+    target_num = target_num if target_num in ("sg", "pl") else "sg"
+    # agreement приходит в pymorphy‑числах sing/plur; переводим в sg/pl
+    if target_num in ("sing", "plur"):
+        target_num = "pl" if target_num == "plur" else "sg"
+    pr_key = _RU_TO_PR_CASE.get(target_ru_case, "nom")
+    ru_cases = (entry.get("ru") or {}).get(target_num) or {}
+    ru = ru_cases.get(pr_key) or ru_cases.get("nom") or ru_cases.get("nomn")
+    if not ru:
+        alt = {v: k for k, v in _PR_CASE_TO_RU.items()}
+        ru = ru_cases.get(alt.get(target_ru_case, "nom"))
+    if not ru:
+        return None
+    gender = entry.get("gender") or "masc"
+    return {
+        "out": ru,
+        "note": f"{entry.get('lemma') or entry.get('lemma')}: имя (PN), {target_num}.{pr_key}",
+        "pos": "NOUN",
+        "gender": gender,
+        "number": "plur" if target_num == "pl" else "sing",
+        "ru_case": target_ru_case,
+        "consumes_case": True,
+    }
+
+
 def _clean_pr_token(token):
     return re.sub(r"[^\wāēīōūâêîôûàèìòùáéíóúŠšČčŽž-]", "", token, flags=re.UNICODE).lower()
 
@@ -1433,7 +1528,12 @@ def translate_pr_word(token):
 
     tied = _select_pr_matches_tied(clean)
     if not tied:
-        return f"[{token}?]", "нет в словаре"
+        # Собственные имена часто отсутствуют в dictionary.json; PN‑таблица
+        # покрывает их и отдаёт русскую форму с правильным падежом/числом.
+        pn = _render_propername(token)
+        if pn:
+            return pn["out"], f"{pn['note']}"
+        return f"[{token}?]", "нет в словаря"
 
     if len(tied) == 1:
         entry, label = tied[0]
@@ -1537,6 +1637,18 @@ def translate_pr_sentence_json(sentence):
 
         found = _select_pr_match(clean, prefer_pos=prefer_pos, verb_agreement=subject_agreement)
         if not found:
+            # Собственные имена часто не внесены в dictionary.json: PN‑таблица
+            # покрывает их и отдаёт русскую форму с нужным падежом/числом.
+            pn = _render_propername(tok, forced_case=pending_ru_case)
+            if pn:
+                out_words.append(pn["out"])
+                debug.append({"src": tok, "out": pn["out"], "note": pn["note"]})
+                if pending_ru_case:
+                    pending_ru_case = None            # падеж предлогом погашен
+                elif pn["ru_case"] in (None, "nomn"):
+                    subject_agreement = {"person": "3per", "number": pn["number"], "gender": pn["gender"]}
+                i += 1
+                continue
             # Собственные имена в словарь часто не внесены; лучше оставить их в
             # тексте, чем превращать фразу в набор [слово?].
             if tok[:1].isupper():
