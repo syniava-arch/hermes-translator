@@ -1303,10 +1303,12 @@ def _build_propername_index(propernames_json_str):
         pr = entry.get("pr") or {}
         for num_key, cases in pr.items():            # "sg" | "pl"
             num = "pl" if "pl" in num_key.lower() else "sg"
-            for pr_case, form in cases.items():       # "nom"/"gen"/...
-                form_lower = (form or "").lower()
-                if form_lower:
-                    _propername_form_index[form_lower] = (entry_l, num, pr_case)
+            for pr_case, form in cases.items():       # "nom"/"gen"/... (можно список вариантов)
+                forms = form if isinstance(form, list) else [form]
+                for variant in forms:
+                    form_lower = (variant or "").lower()
+                    if form_lower:
+                        _propername_form_index[form_lower] = (entry_l, num, pr_case)
 
 
 def _lookup_propername(clean_token):
@@ -1634,6 +1636,23 @@ def translate_pr_sentence_json(sentence):
             prefer_pos = "VERB"
         elif _candidate_has_pos(clean, "ADJF") and _next_pr_noun_agreement(tokens, i, forced_case=pending_ru_case):
             prefer_pos = "ADJF"
+
+        # Proper-name priority: если слово написано с заглавной буквы и совпадает
+        # с леммой/алиасом из PN‑таблицы — отдаём его, даже если такая форма встречается
+        # в словаре как обычное слово (Māntas ≈ mānta «сокровище»).
+        if tok[:1].isupper():
+            pn_hit = _lookup_propername(clean)
+            if pn_hit and pn_hit[2] == "nom":
+                pn = _render_propername(tok, forced_case=pending_ru_case)
+                if pn:
+                    out_words.append(pn["out"])
+                    debug.append({"src": tok, "out": pn["out"], "note": pn["note"]})
+                    if pending_ru_case:
+                        pending_ru_case = None
+                    else:
+                        subject_agreement = {"person": "3per", "number": pn["number"], "gender": pn["gender"]}
+                    i += 1
+                    continue
 
         found = _select_pr_match(clean, prefer_pos=prefer_pos, verb_agreement=subject_agreement)
         if not found:

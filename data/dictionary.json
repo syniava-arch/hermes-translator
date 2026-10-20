@@ -100525,7 +100525,7 @@
     "lt": "šalis (šonas), šonas, pusė (šalis)",
     "lv": "puse (sāns), puse (virziens), sāns (puse)",
     "pl": "strona",
-    "ru": "сторона"
+    "ru": "страница"
   },
   {
     "i": 5137,
@@ -173619,7 +173619,7 @@
   },
   {
     "w": "en",
-    "ru": "en",
+    "ru": "в",
     "i": 10991
   },
   {
@@ -173656,5 +173656,21 @@
     "w": "Ēiwans",
     "ru": "Ēiwans",
     "i": 10998
+  },
+  {
+    "i": "new-m-unit",
+    "w": "m",
+    "l": "",
+    "f": "",
+    "x": false,
+    "b": "mettan",
+    "g": "",
+    "s": "год (сокращённо) [Mettan E 12]",
+    "de": "Jahr",
+    "en": "year",
+    "lt": "metai",
+    "lv": "gads",
+    "pl": "rok",
+    "ru": "г."
   }
 ]

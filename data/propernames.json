@@ -15,11 +15,11 @@
   },
   {
     "lemma": "Ērks",
-    "aliases": ["Ērkus", "Gērks", "Hērks"],
+    "aliases": ["Gērks", "Hērks"],
     "gender": "masc",
     "priority": 1,
     "pr": {
-      "sg": { "nom": "Ērks", "gen": "Ērkas", "dat": "Ērkoi", "akk": "Ērkan" },
+      "sg": { "nom": "Ērks", "gen": ["Ārkas", "Ārkisa", "Ērkus", "Gērkus", "Hērkus"], "dat": "Ērkoi", "akk": "Ērkan" },
       "pl": { "nom": "Ērkai", "gen": "Ērkan", "dat": "Ērkamans", "akk": "Ērkans" }
     },
     "ru": {

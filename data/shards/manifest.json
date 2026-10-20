@@ -4,34 +4,34 @@
   "maxShardBytes": 614400,
   "dictionary": {
     "source": "../dictionary.json",
-    "items": 10828,
-    "sourceBytes": 2534737,
-    "sourceSha256": "c460f40cb736885938b7cc76c4349315c58d96186a5d26321250eb74d6a04472",
+    "items": 10911,
+    "sourceBytes": 3531176,
+    "sourceSha256": "f9a8dce94bde2683f20c1417f5810277fbe324495c9fe92e21d9965286206d3a",
     "shards": [
       {
         "path": "dictionary/000.json",
-        "items": 2590,
-        "bytes": 614383
+        "items": 2584,
+        "bytes": 614388
       },
       {
         "path": "dictionary/001.json",
-        "items": 2641,
-        "bytes": 614234
+        "items": 2626,
+        "bytes": 614238
       },
       {
         "path": "dictionary/002.json",
-        "items": 2608,
-        "bytes": 614320
+        "items": 2588,
+        "bytes": 614170
       },
       {
         "path": "dictionary/003.json",
-        "items": 2641,
-        "bytes": 614328
+        "items": 2613,
+        "bytes": 614176
       },
       {
         "path": "dictionary/004.json",
-        "items": 348,
-        "bytes": 77481
+        "items": 500,
+        "bytes": 97634
       }
     ]
   },
