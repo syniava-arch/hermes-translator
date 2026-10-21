@@ -112,9 +112,10 @@ PR_PREP_RU_CASE = {
     "prīkin": {"akk": "gent", None: "gent"},
     "sēn": {"akk": "ablt", None: "ablt"},
     "sen": {"akk": "ablt", None: "ablt"},
-    "ezze": {"dat": "gent", None: "gent"},
+    "ezze": {"dat": "gent", None: "loct"},
     "iz": {"akk": "gent", None: "gent"},
     "prēi": {"akk": "datv", None: "datv"},
+    "prei": {"akk": "ablt", None: "ablt"},
 }
 
 
@@ -966,6 +967,15 @@ def _label_grammar(label):
             info["gender"] = GENDER_MAP_INV[base]
         if base in ("present", "past", "future"):
             info["tense"] = {"present": "pres", "past": "past", "future": "futr"}[base]
+    # Пустая метка = словарная форма (именительный падеж, ед.ч.). Раньше из‑за
+    # pymorphy3 [0] для слов вроде "паспорт"/"память" возвращался случайный
+    # падеж (accs), и согласование прилаганий ломалось ("прусского паспорт").
+    if not parts and info["case"] is None:
+        info["case"] = "nomn"
+        info["ru_case"] = "nomn"
+        # number НЕ фиксируем: для множественных/ Plural-лемм (Prūsai, Мантасы)
+        # фиксирование sing давило pymorphy на единственное («Прус»). Оставляем
+        # None — inflect({}) без числа оставит pymorphy в своём числе.
     last = parts[-1] if parts else ""
     if "(я)" in last:
         info.update({"person": "1per", "number": "sing"})
@@ -1518,7 +1528,12 @@ def _subject_agreement_from_pr(entry, label, output_word=None):
                 "вы": {"person": "2per", "number": "plur", "gender": None},
             }[output_word]
     if info.get("ru_case") in (None, "nomn"):
-        number = info.get("number") or "sing"
+        number = info.get("number")
+        if not number and output_word:
+            p = morph.parse(output_word)[0]
+            number = NUMBER_MAP.get(p.tag.number or "sing", "sing")
+        if not number:
+            number = "sing"
         return {"person": "3per", "number": number, "gender": info.get("gender") or "masc"}
     return None
 
@@ -1593,17 +1608,101 @@ def _match_pr_phrase(tokens, start_idx):
     return None
 
 
+def _flush_held(out_words, debug, held):
+    """Выводит отложенные в буфер принадлежательные имена (P1 reorder)."""
+    if not held:
+        return
+    for h in held:
+        out_words.append(h["out"])
+        debug.append({"src": h["src"], "out": h["out"], "note": h["note"]})
+    held.clear()
+
+
+def _next_content_idx(tokens, start):
+    """Индекс следующего содержательного токена (без пунктуации), либо None."""
+    j = start
+    while j < len(tokens):
+        tok = tokens[j]
+        if PR_PUNCT_TOKEN_RE.match(tok):
+            return None
+        clean = _clean_pr_token(tok)
+        if clean:
+            return j
+        j += 1
+    return None
+
+
+def _prep_phrase_continues(tokens, i):
+    """True, если после токена i ещё идёт слово (имя/прил/сущ) — значит
+    предлог управляет не одной, а всей цепочкой («с Еркусом Мантасом»: оба
+    имени во мнительном падеже). Падеж удерживаем, а не сбрасываем."""
+    j = _next_content_idx(tokens, i + 1)
+    if j is None:
+        return False
+    clean = _clean_pr_token(tokens[j])
+    if clean and _lookup_propername(clean):
+        return True
+    m = _select_pr_match(clean)
+    if not m:
+        return False
+    pos = _match_pos(m)
+    if pos == "VERB":
+        return False
+    return pos in ("NOUN", "NPRO", "ADJF", "PRTF")
+
+
+def _head_noun_ahead(tokens, start, limit=6):
+    """True, если через ≤limit контент-слов (имена/прил/числа) после `start`
+    идёт именительный существительный — т.е. цепочка принадлежит ему
+    («Ērkus Māntas prūsisks pass» → head = pass)."""
+    j = start
+    seen = 0
+    while j < len(tokens) and seen < limit:
+        tok = tokens[j]
+        if PR_PUNCT_TOKEN_RE.match(tok):
+            return None
+        clean = _clean_pr_token(tok)
+        if not clean:
+            j += 1
+            continue
+        seen += 1
+        if clean.isdigit():
+            j += 1
+            continue
+        pn = _lookup_propername(clean)
+        if pn:
+            j += 1
+            continue
+        m = _select_pr_match(clean)
+        if not m:
+            return None
+        pos = _match_pos(m)
+        if pos in ("NOUN", "NPRO"):
+            info = _label_grammar(m[1])
+            if info.get("ru_case") in (None, "nomn", "nom", "accs"):
+                return True
+            return None
+        if pos in ("ADJF", "PRTF"):
+            j += 1
+            continue
+        return None
+    return None
+
+
 def translate_pr_sentence_json(sentence):
     tokens = re.findall(r"[\wāēīōūâêîôûàèìòùáéíóúŠšČčŽž-]+|[^\w\s]", sentence, flags=re.UNICODE)
     out_words, debug = [], []
     pending_ru_case = None       # русский падеж после прусского предлога
     subject_agreement = None     # подлежащее для выбора лица/числа глагола
     pending_number = False       # предыдущий токен — числительное/квантор (gen.pl)
+    held = []                    # P1: отложенные принадлежательные родительные имена
     i = 0
     n = len(tokens)
     while i < n:
         tok = tokens[i]
         if PR_PUNCT_TOKEN_RE.match(tok):
+            if held:
+                _flush_held(out_words, debug, held)
             if not (out_words and str(out_words[-1]).endswith(tok)):
                 out_words.append(tok)
             pending_ru_case = None
@@ -1616,6 +1715,8 @@ def translate_pr_sentence_json(sentence):
 
         clean = _clean_pr_token(tok)
         if clean.isdigit():
+            if held:
+                _flush_held(out_words, debug, held)
             out_words.append(tok)
             debug.append({"src": tok, "out": tok, "note": "число"})
             pending_number = True
@@ -1626,6 +1727,8 @@ def translate_pr_sentence_json(sentence):
 
         phrase = _match_pr_phrase(tokens, i)
         if phrase:
+            if held:
+                _flush_held(out_words, debug, held)
             out_words.append(phrase["out"])
             debug.append({"src": phrase["src"], "out": phrase["out"], "note": phrase["note"]})
             i = phrase["end"]
@@ -1637,18 +1740,38 @@ def translate_pr_sentence_json(sentence):
         elif _candidate_has_pos(clean, "ADJF") and _next_pr_noun_agreement(tokens, i, forced_case=pending_ru_case):
             prefer_pos = "ADJF"
 
+        pn_name_hit = _lookup_propername(clean) if tok[:1].isupper() else None
+        # P1: принадлежательное имя без предлога, стоящее перед родительным
+        # существительным («Ērkus Māntas prūsisks pass»), откладываем и выводим
+        # его после существительного: «паспорт Эрка Мантаса». Субъекты — имена в
+        # именительном падеже в начале предложения — не трогаем.
+        if (pending_ru_case is None
+                and pn_name_hit is not None
+                and _head_noun_ahead(tokens, i)
+                and not (subject_agreement is None and not out_words and not held
+                         and pn_name_hit[2] == "nom")):
+            pn = _render_propername(tok, forced_case="gent")
+            if pn and pn.get("out"):
+                held.append({"src": tok, "out": pn["out"], "note": pn["note"]})
+                i += 1
+                continue
+
         # Proper-name priority: если слово написано с заглавной буквы и совпадает
         # с леммой/алиасом из PN‑таблицы — отдаём его, даже если такая форма встречается
         # в словаре как обычное слово (Māntas ≈ mānta «сокровище»).
         if tok[:1].isupper():
             pn_hit = _lookup_propername(clean)
-            if pn_hit and pn_hit[2] == "nom":
+            if pn_hit and (pn_hit[2] == "nom" or pending_ru_case):
                 pn = _render_propername(tok, forced_case=pending_ru_case)
                 if pn:
+                    if held:
+                        _flush_held(out_words, debug, held)
                     out_words.append(pn["out"])
                     debug.append({"src": tok, "out": pn["out"], "note": pn["note"]})
                     if pending_ru_case:
-                        pending_ru_case = None
+                        # удерживаем падеж, если имя ещё не кончилось
+                        if not _prep_phrase_continues(tokens, i):
+                            pending_ru_case = None
                     else:
                         subject_agreement = {"person": "3per", "number": pn["number"], "gender": pn["gender"]}
                     i += 1
@@ -1660,10 +1783,14 @@ def translate_pr_sentence_json(sentence):
             # покрывает их и отдаёт русскую форму с нужным падежом/числом.
             pn = _render_propername(tok, forced_case=pending_ru_case)
             if pn:
+                if held:
+                    _flush_held(out_words, debug, held)
                 out_words.append(pn["out"])
                 debug.append({"src": tok, "out": pn["out"], "note": pn["note"]})
                 if pending_ru_case:
-                    pending_ru_case = None            # падеж предлогом погашен
+                    # падеж удерживаем, если имя ещё не кончилось («с Еркусом Мантасом»)
+                    if not _prep_phrase_continues(tokens, i):
+                        pending_ru_case = None
                 elif pn["ru_case"] in (None, "nomn"):
                     subject_agreement = {"person": "3per", "number": pn["number"], "gender": pn["gender"]}
                 i += 1
@@ -1671,6 +1798,8 @@ def translate_pr_sentence_json(sentence):
             # Собственные имена в словарь часто не внесены; лучше оставить их в
             # тексте, чем превращать фразу в набор [слово?].
             if tok[:1].isupper():
+                if held:
+                    _flush_held(out_words, debug, held)
                 out_words.append(tok)
                 debug.append({"src": tok, "out": tok, "note": "вероятно имя; нет в словаре"})
                 if not pending_ru_case:
@@ -1683,6 +1812,12 @@ def translate_pr_sentence_json(sentence):
 
         entry, label = found
         pos = _match_pos(found)
+
+        # Если идёт не голова предложения, а глагол/предлог/союз — значит
+        # отложенные принадлежательные имена не нашли себя головного существительного
+        # (цепочка прервалась): выводим их на месте.
+        if held and pos not in ("NOUN", "NPRO", "ADJF", "PRTF"):
+            _flush_held(out_words, debug, held)
 
         if pos == "PREP":
             next_case = _next_pr_case(tokens, i)
@@ -1718,11 +1853,16 @@ def translate_pr_sentence_json(sentence):
         info = _label_grammar(label)
         if pos in ("NOUN", "NPRO"):
             if pending_ru_case:
-                pending_ru_case = None
+                if not _prep_phrase_continues(tokens, i):
+                    pending_ru_case = None
             elif info.get("ru_case") in (None, "nomn"):
                 subj = _subject_agreement_from_pr(entry, label, gloss)
                 if subj:
                     subject_agreement = subj
+            # P1: головное существительное выведено — теперь можно вывести
+            # отложенные принадлежательные имена («паспорт Эрка Мантаса»).
+            if held:
+                _flush_held(out_words, debug, held)
         elif pos == "VERB":
             # После сказуемого подлежащее уже использовано, но его род может
             # понадобиться только для этого глагола.
@@ -1733,5 +1873,12 @@ def translate_pr_sentence_json(sentence):
 
         i += 1
 
+    if held:
+        _flush_held(out_words, debug, held)
     result = " ".join(out_words).replace(" ,", ",").replace(" .", ".").replace(" ?", "?").replace(" !", "!")
+    # Русское предложение: первая буква заглавная и после .!? (собственные имена
+    # уже пришли с заглавной из словаря — .upper() к ним не меняет букву).
+    result = re.sub(r"(^|[.!?]\s+)(\w)", lambda m: m.group(1) + m.group(2).upper(), result)
+    # «о» -> «об» перед гласной (о/об, предлог).
+    result = re.sub(r"(?<![а-яёА-ЯЁ])о ([ЭюяЁэюя])", lambda m: "об " + m.group(1), result)
     return json.dumps({"translation": result, "words": debug}, ensure_ascii=False)

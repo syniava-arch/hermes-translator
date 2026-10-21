@@ -1,44 +1,131 @@
 [
   {
     "lemma": "Ādams",
-    "aliases": ["Ādamma", "Ādemm"],
+    "aliases": [
+      "Ādamma",
+      "Ādemm"
+    ],
     "gender": "masc",
     "priority": 1,
     "pr": {
-      "sg": { "nom": "Ādams", "gen": "Ādamas", "dat": "Ādamu", "akk": "Ādaman" },
-      "pl": { "nom": "Ādamai", "gen": "Ādaman", "dat": "Ādamamans", "akk": "Ādamans" }
+      "sg": {
+        "nom": "Ādams",
+        "gen": "Ādamas",
+        "dat": "Ādamu",
+        "akk": "Ādaman"
+      },
+      "pl": {
+        "nom": "Ādamai",
+        "gen": "Ādaman",
+        "dat": "Ādamamans",
+        "akk": "Ādamans"
+      }
     },
     "ru": {
-      "sg": { "nom": "Адам", "gen": "Адама", "dat": "Адаму", "akk": "Адамa", "ins": "Адамом", "prl": "Адаме" },
-      "pl": { "nom": "Адамы", "gen": "Адамов", "dat": "Адамам", "akk": "Адамов", "ins": "Адамами", "prl": "Адамах" }
+      "sg": {
+        "nom": "Адам",
+        "gen": "Адама",
+        "dat": "Адаму",
+        "akk": "Адамa",
+        "ins": "Адамом",
+        "prl": "Адаме"
+      },
+      "pl": {
+        "nom": "Адамы",
+        "gen": "Адамов",
+        "dat": "Адамам",
+        "akk": "Адамов",
+        "ins": "Адамами",
+        "prl": "Адамах"
+      }
     }
   },
   {
     "lemma": "Ērks",
-    "aliases": ["Gērks", "Hērks"],
+    "aliases": [
+      "Gērks",
+      "Hērks",
+      "Ērkun"
+    ],
     "gender": "masc",
     "priority": 1,
     "pr": {
-      "sg": { "nom": "Ērks", "gen": ["Ārkas", "Ārkisa", "Ērkus", "Gērkus", "Hērkus"], "dat": "Ērkoi", "akk": "Ērkan" },
-      "pl": { "nom": "Ērkai", "gen": "Ērkan", "dat": "Ērkamans", "akk": "Ērkans" }
+      "sg": {
+        "nom": "Ērks",
+        "gen": [
+          "Ārkas",
+          "Ārkisa",
+          "Ērkus",
+          "Gērkus",
+          "Hērkus"
+        ],
+        "dat": "Ērkoi",
+        "akk": "Ērkan"
+      },
+      "pl": {
+        "nom": "Ērkai",
+        "gen": "Ērkan",
+        "dat": "Ērkamans",
+        "akk": "Ērkans"
+      }
     },
     "ru": {
-      "sg": { "nom": "Эркс", "gen": "Эркуса", "dat": "Эркусу", "akk": "Эркуса", "ins": "Эркусом", "prl": "Эркусе" },
-      "pl": { "nom": "Эрксы", "gen": "Эрксов", "dat": "Эрксам", "akk": "Эрксов", "ins": "Эрксами", "prl": "Эрксах" }
+      "sg": {
+        "nom": "Эркс",
+        "gen": "Эркуса",
+        "dat": "Эркусу",
+        "akk": "Эркуса",
+        "ins": "Эркусом",
+        "prl": "Эркусе"
+      },
+      "pl": {
+        "nom": "Эрксы",
+        "gen": "Эрксов",
+        "dat": "Эрксам",
+        "akk": "Эрксов",
+        "ins": "Эрксами",
+        "prl": "Эрксах"
+      }
     }
   },
   {
     "lemma": "Māntas",
-    "aliases": ["Mānts"],
+    "aliases": [
+      "Mānts"
+    ],
     "gender": "masc",
     "priority": 1,
     "pr": {
-      "sg": { "nom": "Māntas", "gen": "Māntao", "dat": "Māntau", "akk": "Māntan" },
-      "pl": { "nom": "Māntai", "gen": "Māntao", "dat": "Māntamans", "akk": "Māntans" }
+      "sg": {
+        "nom": "Māntas",
+        "gen": "Māntao",
+        "dat": "Māntau",
+        "akk": "Māntan"
+      },
+      "pl": {
+        "nom": "Māntai",
+        "gen": "Māntao",
+        "dat": "Māntamans",
+        "akk": "Māntans"
+      }
     },
     "ru": {
-      "sg": { "nom": "Мантас", "gen": "Мантаса", "dat": "Мантасу", "akk": "Мантаса", "ins": "Мантасом", "prl": "Мантасе" },
-      "pl": { "nom": "Мантасы", "gen": "Мантасов", "dat": "Мантасам", "akk": "Мантасов", "ins": "Мантасами", "prl": "Мантасах" }
+      "sg": {
+        "nom": "Мантас",
+        "gen": "Мантаса",
+        "dat": "Мантасу",
+        "akk": "Мантаса",
+        "ins": "Мантасом",
+        "prl": "Мантасе"
+      },
+      "pl": {
+        "nom": "Мантасы",
+        "gen": "Мантасов",
+        "dat": "Мантасам",
+        "akk": "Мантасов",
+        "ins": "Мантасами",
+        "prl": "Мантасах"
+      }
     }
   },
   {
@@ -47,10 +134,74 @@
     "gender": "masc",
     "priority": 2,
     "pr": {
-      "sg": { "nom": "Barrins", "gen": "Barrino", "dat": "Barrinu", "akk": "Barrinan" }
+      "sg": {
+        "nom": "Barrins",
+        "gen": "Barrino",
+        "dat": "Barrinu",
+        "akk": "Barrinan"
+      }
     },
     "ru": {
-      "sg": { "nom": "Барринс", "gen": "Барринса", "dat": "Барринсу", "akk": "Барринса", "ins": "Барринсом", "prl": "Барринсе" }
+      "sg": {
+        "nom": "Барринс",
+        "gen": "Барринса",
+        "dat": "Барринсу",
+        "akk": "Барринса",
+        "ins": "Барринсом",
+        "prl": "Барринсе"
+      }
+    }
+  },
+  {
+    "lemma": "Gīwa",
+    "aliases": [],
+    "gender": "fem",
+    "priority": 1,
+    "pr": {
+      "sg": {
+        "nom": "Gīwa",
+        "gen": "Gīwas",
+        "dat": "Gīwai",
+        "akk": "Gīwam",
+        "ins": "Gīwu",
+        "prl": "Gīwā"
+      }
+    },
+    "ru": {
+      "sg": {
+        "nom": "Жиая",
+        "gen": "Жиаи",
+        "dat": "Жиае",
+        "acc": "Жиаю",
+        "ins": "Жиа",
+        "prl": "Жиа"
+      }
+    }
+  },
+  {
+    "lemma": "Ebwarē",
+    "aliases": [],
+    "gender": "fem",
+    "priority": 1,
+    "pr": {
+      "sg": {
+        "nom": "Ebwarē",
+        "gen": "Ebwarēs",
+        "dat": "Ebwarēnai",
+        "akk": "Ebwarēm",
+        "ins": "Ebwarē",
+        "prl": "Ebwarē"
+      }
+    },
+    "ru": {
+      "sg": {
+        "nom": "Победа",
+        "gen": "Победы",
+        "dat": "Победе",
+        "acc": "Победу",
+        "ins": "Победой",
+        "prl": "Победе"
+      }
     }
   }
 ]

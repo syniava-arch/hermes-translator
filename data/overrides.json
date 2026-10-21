@@ -838145,5 +838145,18 @@
         }
       }
     }
-  }
+  },
+  {"word": "prei", "source": "prp acc", "ru": "под", "priority": 1},
+  {"word": "Prūsai", "source": "n pl nom", "ru": "Прусы", "priority": 1},
+  {"word": "minisnā", "source": "n sg nom", "ru": "память", "priority": 1},
+  {"word": "walisnā", "source": "n sg nom", "ru": "сражение", "priority": 1},
+  {"word": "warewīngi", "source": "aj nom", "ru": "могучая", "priority": 1},
+  {"word": "raggas", "source": "n sg nom", "ru": "Январь", "priority": 1},
+  {"word": "kāiman", "source": "n sg acc", "ru": "деревня", "priority": 1},
+  {"word": "miksjans", "source": "n pl gen", "ru": "немцев", "priority": 1},
+  {"word": "ebwarīwusis", "source": "v pt past", "ru": "победить", "priority": 1, "conjugation": {"indicative": {"past": [{"p": "(я)", "f": "ebwarīwusis"}, {"p": "(ты)", "f": "ebwarīwusis"}, {"p": "(он/она/оно)", "f": "ebwarīwusis"}, {"p": "(мы)", "f": "ebwarīwusis"}, {"p": "(вы)", "f": "ebwarīwusis"}, {"p": "tenēi/tennas (они)", "f": "ebwarīwusis"}]}}},
+  {"word": "Nātangai", "source": "n sg loc", "ru": "Натангия", "priority": 1},
+  {"word": "Ebwarē", "source": "n fem nom", "ru": "Победа", "priority": 1},
+  {"word": "Papeisātan", "source": "v pa", "ru": "написана", "priority": 1},
+  {"word": "Pakarwjas", "source": "n sg nom", "ru": "Покарвис", "priority": 1}
 ]
