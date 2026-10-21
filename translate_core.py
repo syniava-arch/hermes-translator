@@ -1059,17 +1059,39 @@ def _ru_pronoun_form(entry, label):
     return None
 
 
-def _ru_verb_form(gloss, label, subject_gender=None):
+def _ru_verb_form(gloss, label, subject_gender=None, override=None, subject_number=None):
     info = _label_grammar(label)
     tense = info.get("tense")
-    number = info.get("number") or "sing"
+    number = info.get("number") or (subject_number or "sing")
     person = info.get("person") or "3per"
-    grammemes = set()
 
+    # Prefer explicit Russian conjugation forms from override — authoritative,
+    # no pymorphy3 drift (e.g. "победить" inflect {past,plur} → "победившие"
+    # instead of "победили"). TENSE_MAP keys: pres/past/futr → present/past/future.
+    if override:
+        indic = ((override.get("conjugation") or {}).get("indicative") or {})
+        candidates = []
+        if tense and TENSE_MAP.get(tense):
+            candidates.append(TENSE_MAP.get(tense))
+        candidates.append("past")
+        for tk in candidates:
+            rows = indic.get(tk)
+            if not isinstance(rows, list) or not rows:
+                continue
+            try:
+                idx = PERSON_ORDER.index((person, number))
+            except ValueError:
+                idx = 5 if (person, number) == ("3per", "plur") else 2
+            idx = min(idx, len(rows) - 1)
+            form = rows[idx]
+            ru = form.get("ru") if isinstance(form, dict) else form
+            if ru:
+                return ru
+
+    grammemes = set()
     if tense == "past":
         grammemes.add("past")
         grammemes.add(number)
-        # В русском прошедшем времени нет лица; для ед. числа нужен род.
         if number == "sing":
             grammemes.add(subject_gender or "masc")
     elif tense in ("pres", "futr"):
@@ -1085,7 +1107,7 @@ def _ru_verb_form(gloss, label, subject_gender=None):
     return inflected.word if inflected else None
 
 
-def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_gender=None, num_government=False):
+def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_gender=None, subject_number=None, num_government=False):
     """Возвращает (русское_слово, заметку) для статьи словаря, по
     возможности согласовав русское слово с распознанной грамматической
     формой. В отличие от ранней версии, не переносит прусский род на русские
@@ -1157,7 +1179,7 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
             return inflected.word, note_form
 
     if pos == "VERB":
-        verb = _ru_verb_form(gloss, label, subject_gender=subject_gender)
+        verb = _ru_verb_form(gloss, label, subject_gender=subject_gender, override=override, subject_number=subject_number)
         if verb:
             return verb, note_form
 
@@ -1204,9 +1226,15 @@ def _label_matches_agreement(label, agreement):
     if not agreement:
         return False
     info = _label_grammar(label)
+    # Normalize number formats: PN table uses "pl"/"sg", _label_grammar uses "plur"/"sing"
+    agr_num = agreement.get("number")
+    if agr_num == "pl":
+        agr_num = "plur"
+    elif agr_num == "sg":
+        agr_num = "sing"
     return bool(
         info.get("person") == agreement.get("person") and
-        info.get("number") == agreement.get("number")
+        info.get("number") == agr_num
     )
 
 
@@ -1845,6 +1873,7 @@ def translate_pr_sentence_json(sentence):
             forced_case=pending_ru_case,
             agreement=agreement,
             subject_gender=(subject_agreement or {}).get("gender"),
+            subject_number=(subject_agreement or {}).get("number"),
             num_government=pending_number,
         )
         out_words.append(gloss)

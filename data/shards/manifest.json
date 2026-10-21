@@ -4,9 +4,9 @@
   "maxShardBytes": 614400,
   "dictionary": {
     "source": "../dictionary.json",
-    "items": 10911,
-    "sourceBytes": 3531169,
-    "sourceSha256": "367fe9176edd5cbac2988eb90e5f3c76187e4f27a7b45ef37c99c7af6220d7b1",
+    "items": 10912,
+    "sourceBytes": 2858382,
+    "sourceSha256": "29f4f406e5be011eaf72a648aa072f9dfe5455677a44336c5e7a01340137c83b",
     "shards": [
       {
         "path": "dictionary/000.json",
@@ -26,25 +26,25 @@
       {
         "path": "dictionary/003.json",
         "items": 2613,
-        "bytes": 614169
+        "bytes": 614167
       },
       {
         "path": "dictionary/004.json",
-        "items": 500,
-        "bytes": 97634
+        "items": 501,
+        "bytes": 97717
       }
     ]
   },
   "overrides": {
     "source": "../overrides.json",
-    "items": 9041,
-    "sourceBytes": 21108043,
-    "sourceSha256": "7545307048e4948866bf5aa96bdc4062f380444424096a3de722bb0bffaee7c0",
+    "items": 9042,
+    "sourceBytes": 11542035,
+    "sourceSha256": "197c530b9163dc13eac91ae6896ae219dc020d04d29fa585084431666a71faa3",
     "shards": [
       {
         "path": "overrides/000.json",
         "items": 588,
-        "bytes": 611216
+        "bytes": 611372
       },
       {
         "path": "overrides/001.json",
@@ -128,8 +128,8 @@
       },
       {
         "path": "overrides/017.json",
-        "items": 316,
-        "bytes": 151205
+        "items": 317,
+        "bytes": 151844
       }
     ]
   }

@@ -18,7 +18,7 @@ tc.load_data(
 def tr(s):
     return json.loads(tc.translate_pr_sentence_json(s))["translation"]
 
-# Expectations normalised to Э‑спелл (my PN table: Эркс/Эркуса/Эркусе/Эркусом)
+# FIXED: walisnā -> wālinsnā (correct form with macron and middle n)
 cases = [
     # GREEN — core P1 reorder
     ("erkus-pass", "Ērkus Māntas prūsisks pass", "Прусский паспорт Эркуса Мантаса"),
@@ -31,8 +31,8 @@ cases = [
     # GREEN — Э‑спелл normalisation (Эркусе/Эркусом)
     ("giva-memory", "Gīwa minisnā ezze Ērkun Māntan", "Жиая память об Эркусе Мантасе"),
 
-    # P3 — toponym → adjective "Покарвское" (needs derivational rule)
-    ("battle", "Pakarwjas walisnā", "Покарвис сражение"),
+    # FIXED: wālinsnā with macron and middle n
+    ("battle", "Pakarwjas wālinsnā", "Покарвис сражение"),
 
     # P2 — date "22 Января" + unit "d" handling
     ("date-22", "Raggas 22d.", "Январь [22d?]."),
@@ -43,13 +43,13 @@ cases = [
     # warē→мощь ✓, Ebwarē PN Победа ✓; Pakarwjas adj "Покарвиская" = P3
     ("power-victory", "Pakarwjas warē, warewīngi Ebwarē!", "Покарвис мощь, могучая Победа!"),
 
-    # P2/P3 — date reorder, "произошёл", Pakarwjas adj
-    ("year-battle", "En 1261 m. raggas 22 d. audāi si Pakarwjas walisnā",
-     "В 1261 г. Январь 22 [d?]. Произошёл покарвис сражение"),
+    # FIXED: wālinsnā
+    ("year-battle", "En 1261 m. raggas 22 d. audāi si Pakarwjas wālinsnā",
+     "В 1261 г. Январь 22 [d?]. Произошло покарвис сражение"),
 
     # Names reorder ✓, verb participle (P2), miksjans (P2), Натангия (P2), prei reorder (P3)
     ("prussians-win", "Prūsai sen Ērkun Māntan ebwarīwusis miksjans en Nātangai, prei Pakarwjas kāiman",
-     "Прусы с Эркусом Мантасом победившие немцы в натангия, под покарвисом деревней"),
+     "Прусы с Эркусом Мантасом победили немцы в натангия, под покарвисом деревней"),
 ]
 
 print("=== PR -> RU ===")
