@@ -108,6 +108,7 @@ PR_PUNCT_TOKEN_RE = re.compile(r"^[^\wāēīōūâêîôûàèìòùáéíóúŠ
 PR_PREP_RU_CASE = {
     "ēn": {"dat": "loct", "akk": "accs", None: "loct"},
     "en": {"dat": "loct", "akk": "accs", None: "loct"},
+    "na": {"akk": "loct", "dat": "loct", None: "loct"},
     "prīki": {"akk": "gent", None: "gent"},
     "prīkin": {"akk": "gent", None: "gent"},
     "sēn": {"akk": "ablt", None: "ablt"},
@@ -168,7 +169,29 @@ def _clean_ru_token(token):
 def _split_ru_field(ru_field):
     # Кроме запятых/слэшей/точек с запятой в словаре встречаются пары фраз
     # через вопросительный или восклицательный знак: "Как дела? Как поживаешь?".
-    return re.split(r"[,/;!?]+", ru_field)
+    # Не разбиваем знаками препинания внутри скобок, чтобы не ломать пояснения
+    # вроде "Пруссия (Балтийская, без Бранденбурга и Поммерании), Пруса".
+    parts = []
+    current = []
+    depth = 0
+    for ch in ru_field:
+        if ch in "([{":
+            depth += 1
+            current.append(ch)
+        elif ch in ")]}":
+            depth = max(0, depth - 1)
+            current.append(ch)
+        elif depth == 0 and ch in ",/;!?":
+            part = "".join(current).strip()
+            if part:
+                parts.append(part)
+            current = []
+        else:
+            current.append(ch)
+    part = "".join(current).strip()
+    if part:
+        parts.append(part)
+    return parts or [ru_field]
 
 
 def _clean_pr_phrase(text):
@@ -400,6 +423,14 @@ def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None,
     by_headword = {e.get("w"): e for e in dictionary}
     if "они" not in ru_index and by_headword.get("tāns"):
         ru_index["они"] = [by_headword["tāns"]]
+    if "этот" in ru_index:
+        for alias in ("это", "эта", "эти"):
+            if alias not in ru_index:
+                ru_index[alias] = ru_index["этот"]
+    if "свой" in ru_index:
+        for alias in ("своя", "свое", "своё", "свои"):
+            if alias not in ru_index:
+                ru_index[alias] = ru_index["свой"]
 
     _ru_index = ru_index
     _ru_max_phrase_words = max(ru_max_phrase_words, phrasebook_max_words)
@@ -1195,8 +1226,13 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
         grammemes.add(number)
     # Русским существительным род задаёт сама лемма; чужой прусский род часто
     # ломает инфлексию. Для прилагательных/причастий род нужен.
-    if pos in ("ADJF", "PRTF") and gender:
-        grammemes.add(gender)
+    animacy = (agreement or {}).get("animacy")
+    if pos in ("ADJF", "PRTF"):
+        if gender:
+            grammemes.add(gender)
+        # В русском винительном падеже одушевленность различается только для мужского рода и во множественном числе
+        if ru_case == "accs" and animacy and (gender == "masc" or number == "plur"):
+            grammemes.add(animacy)
 
     if grammemes:
         p = morph.parse(gloss)[0]
@@ -1284,12 +1320,27 @@ def _select_pr_matches_tied(clean_key, prefer_pos=None, verb_agreement=None):
         verb_miss = 0
         if prefer_pos == "VERB" and verb_agreement:
             verb_miss = 0 if _label_matches_agreement(label, verb_agreement) else 1
+        is_cross_ref = 1 if entry.get("x") else 0
+        priority = (override or {}).get("priority", 99)
+        is_exact_headword = 0 if (entry.get("w") or "").lower() == clean_key else 1
+        has_manual_prio = 0 if (
+            str(entry.get("i")).lower() in _pr_to_ru_priority or
+            (entry.get("w") or "").lower() in _pr_to_ru_priority
+        ) else 1
+        info = _label_grammar(label)
+        case = info.get("case") or "nom"
+        case_rank = 0 if case == "nom" else 1
+
         return (
             not _entry_has_ru_gloss(entry),
+            is_cross_ref,
+            has_manual_prio,
+            priority,
             pos_miss,
             verb_miss,
-            label == "" if prefer_pos == "VERB" else label != "",
-            bool(entry.get("x")),
+            is_exact_headword if label == "" else 0,
+            0 if label != "" else 1,
+            case_rank,
         )
 
     scored = sorted(matches, key=score)
@@ -1522,6 +1573,7 @@ def _russian_noun_agreement(entry, label, forced_case=None):
         "gender": p.tag.gender or "masc",
         "number": info.get("number") or p.tag.number or "sing",
         "case": forced_case or info.get("ru_case") or p.tag.case or "nomn",
+        "animacy": p.tag.animacy or "inan",
     }
 
 
