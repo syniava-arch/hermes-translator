@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-import json, sys
-sys.path.insert(0, "/media/stan/fleshka/ghsite")
+import json, sys, os
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
 import translate_core as tc
-
-ROOT = "/media/stan/fleshka/ghsite"
 def j(name):
     return open(ROOT + "/data/" + name, encoding="utf-8").read()
 
@@ -49,7 +48,7 @@ cases = [
 
     # Names reorder ✓, verb participle (P2), miksjans (P2), Натангия (P2), prei reorder (P3)
     ("prussians-win", "Prūsai sen Ērkun Māntan ebwarīwusis miksjans en Nātangai, prei Pakarwjas kāiman",
-     "Прусы с Эркусом Мантасом победили немцы в натангия, под покарвисом деревней"),
+     "Прусы с Эркусом Мантасом победили немцы в натангии, под покарвисом деревней"),
 ]
 
 print("=== PR -> RU ===")

@@ -109,6 +109,7 @@ PR_PREP_RU_CASE = {
     "ēn": {"dat": "loct", "akk": "accs", None: "loct"},
     "en": {"dat": "loct", "akk": "accs", None: "loct"},
     "na": {"akk": "loct", "dat": "loct", None: "loct"},
+    "pa": {"akk": "accs", "dat": "loct", "gen": "datv", None: "loct"},
     "prīki": {"akk": "gent", None: "gent"},
     "prīkin": {"akk": "gent", None: "gent"},
     "sēn": {"akk": "ablt", None: "ablt"},
@@ -1171,7 +1172,8 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
     # "750 mettans" -> "750 лет", а не "750 годы". У существительных род
     # задаёт лемма, поэтому его намеренно не добавляем.
     if num_government and pos in ("NOUN", "NPRO", "ADJF", "PRTF", "NUMR") \
-            and (entry.get("w") or "").lower() not in PR_GEN_PL_QUANTIFIERS:
+            and (entry.get("w") or "").lower() not in PR_GEN_PL_QUANTIFIERS \
+            and not forced_case:
         if gloss == "год":
             return "лет", note_form
         grammemes = {"gent", "plur"}
@@ -1188,20 +1190,15 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
     # Причастия: метка вида "participles.genders.masc.sg.nom" не содержит
     # времени, поэтому _ru_verb_form возвращал None и оставался инфинитив
     # ("aulaūwuns" -> "умереть" вместо "умерший").
-    if "participles" in label:
+    # Также обрабатываем формы на -uns, у которых в метке может не быть
+    # "participles" (например, словарные заголовки типа aulaūwuns id=7797).
+    if "participles" in label or entry.get("w", "").endswith("uns"):
         p = morph.parse(gloss)[0]
         info = _label_grammar(label)
-        grammemes = {"PRTF", "past"}
-        if info.get("number"):
-            grammemes.add(info["number"])
-        else:
-            grammemes.add("sing")  # без числа в метке pymorphy3 берёт plural
-        if info.get("gender"):
-            grammemes.add(info["gender"])
-        else:
-            grammemes.add("masc")
-        if info.get("ru_case"):
-            grammemes.add(info["ru_case"])
+        grammemes = {"PRTF", "past", "actv"}
+        grammemes.add(info.get("number") or subject_number or "sing")
+        grammemes.add(subject_gender or info.get("gender") or "masc")
+        grammemes.add(forced_case or info.get("ru_case") or "nomn")
         try:
             inflected = p.inflect(grammemes)
         except Exception:
