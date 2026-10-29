@@ -70,6 +70,7 @@ _pr_max_phrase_words = 1
 _propernames = {}                 # lemma(lower) -> entry (PN-словарь)
 _propername_lemma_index = {}      # любая форма/алиас имени (lower) -> entry
 _propername_form_index = {}       # pr-форма(lower) -> (entry, number["sg"|"pl"], pr_case)
+_ru_name_index = {}               # ru-форма(lower) -> (entry, number["sg"|"pl"], pr_case)
 # Соответствие падежной метки в propernames.json и pymorphy-граммемы.
 _PR_CASE_TO_RU = {"nom": "nomn", "gen": "gent", "dat": "datv",
                   "akk": "accs", "ins": "ablt", "prl": "loct"}
@@ -788,6 +789,17 @@ def _translate_word_info(token, forced_case=None, agreement=None, preposition_ch
                 "consumes_case": False,
             }
 
+    pn_out = _render_propername_ru_to_pr(clean, forced_case=forced_case, agreement=agreement)
+    if pn_out:
+        return {
+            "out": pn_out,
+            "note": "имя собственное (таблица PN)",
+            "gov_case": None,
+            "pos": "NPRO",
+            "case_used": None,
+            "consumes_case": False,
+        }
+
     parse = _parse_ru(clean)
     lemma = parse.normal_form
     tag = parse.tag
@@ -898,12 +910,46 @@ def _match_ru_phrase(tokens, start_idx):
     return None
 
 
+# ---------------------------------------------------------------------------
+# Числительные
+#
+# В прусских образцах цифры сохраняются как есть ("en 1273 mettan", "750
+# mettans"), поэтому «транслитерация» здесь — не запись числа словами, а
+# передача управления: числительное диктует числу и падеж следующего
+# существительного. Год ведёт себя как обычное слово в единственном числе,
+# остальные числительные требуют множественного; родительный падеж, который в
+# русском возникает после 5+, в образцах заменён винительным.
+# ---------------------------------------------------------------------------
+
+NUMERAL_TOKEN_RE = re.compile(r"^\d{1,9}$")
+YEAR_MIN, YEAR_MAX = 1000, 2199
+YEAR_LEMMAS = {"год", "года", "году", "годом", "годе", "лета", "лет"}
+
+
+def _parse_numeral(tok):
+    """Значение арабского числительного либо None."""
+    t = tok.replace("\u00a0", "").replace(" ", "")
+    if not NUMERAL_TOKEN_RE.match(t):
+        return None
+    return int(t)
+
+
+def _numeral_governs(value, next_lemma):
+    """(число, падеж-подсказка) для существительного после числительного."""
+    if YEAR_MIN <= value <= YEAR_MAX and (next_lemma or "").lower() in YEAR_LEMMAS:
+        return "sg", None
+    if value == 1:
+        return "sg", None
+    return "pl", "akk"
+
+
 def translate_sentence_json(sentence):
     tokens = re.findall(r"[\wа-яёА-ЯЁ-]+|[^\w\s]", sentence, flags=re.UNICODE)
     out_words, debug = [], []
     pending_case = None          # управление ближайшим предлогом
     direct_object_pending = False  # после переходного глагола ждём дополнение
     subject_agreement = None      # ближайшее подлежащее для прошедших глаголов
+    pending_numeral = None        # числительное, ждущее своё существительное
     i = 0
     while i < len(tokens):
         tok = tokens[i]
@@ -916,6 +962,16 @@ def translate_sentence_json(sentence):
             pending_case = None
             direct_object_pending = False
             subject_agreement = None
+            pending_numeral = None
+            i += 1
+            continue
+
+        num_value = _parse_numeral(tok)
+        if num_value is not None:
+            out_words.append(tok)
+            debug.append({"src": tok, "out": tok, "note": "числительное: цифры сохраняются"})
+            pending_numeral = num_value
+            direct_object_pending = False
             i += 1
             continue
 
@@ -942,6 +998,11 @@ def translate_sentence_json(sentence):
             pos = _local_pos_for_parse(parse)
             if pos in ("ADJF", "PRTF"):
                 agreement = _agreement_from_following(tokens, i, effective_case)
+            elif pending_numeral is not None and pos in ("NOUN", "NPRO"):
+                num, case_hint = _numeral_governs(pending_numeral, parse.normal_form)
+                agreement = {"number": num}
+                if case_hint and not effective_case:
+                    agreement["case"] = case_hint
 
         info = _translate_word_info(
             tok,
@@ -969,6 +1030,11 @@ def translate_sentence_json(sentence):
         elif direct_object_pending and info["pos"] in ("PREP", "CONJ", "PRCL", "INTJ"):
             direct_object_pending = False
 
+        if pending_numeral is not None and info["pos"] in ("NOUN", "NPRO"):
+            pending_numeral = None
+        elif pending_numeral is not None and info["pos"] in ("VERB", "CONJ", "PRCL", "INTJ"):
+            pending_numeral = None
+
         if parse is not None and not prep_choice and not effective_case:
             subj = _subject_agreement_for_parse(parse)
             if subj:
@@ -976,6 +1042,7 @@ def translate_sentence_json(sentence):
         i += 1
 
     result = " ".join(out_words).replace(" ,", ",").replace(" .", ".").replace(" ?", "?").replace(" !", "!")
+    result = result.replace("( ", "(").replace(" )", ")")
     return json.dumps({"translation": result, "words": debug}, ensure_ascii=False)
 
 
@@ -1365,8 +1432,9 @@ def _build_propername_index(propernames_json_str):
     Это покрытие для имён, которых нет в dictionary.json: позволяет отдавать
     заранее просчитанную русскую форму и склонять имя в любой падеж/число по
     таблице, минуя ненадёжную pymorphy3‑инфлексию собственных имён."""
-    global _propernames, _propername_lemma_index, _propername_form_index
+    global _propernames, _propername_lemma_index, _propername_form_index, _ru_name_index
     _propernames, _propername_lemma_index, _propername_form_index = {}, {}, {}
+    _ru_name_index = {}
     if not propernames_json_str:
         return
     try:
@@ -1395,6 +1463,61 @@ def _build_propername_index(propernames_json_str):
                     form_lower = (variant or "").lower()
                     if form_lower:
                         _propername_form_index[form_lower] = (entry_l, num, pr_case)
+        ru = entry.get("ru") or {}
+        for num_key, cases in ru.items():             # "sg" | "pl"
+            num = "pl" if "pl" in num_key.lower() else "sg"
+            for ru_case, form in cases.items():
+                forms = form if isinstance(form, list) else [form]
+                for variant in forms:
+                    form_lower = (variant or "").lower()
+                    if form_lower:
+                        _ru_name_index[form_lower] = (entry_l, num, ru_case)
+
+
+def _closest_variant(lemma, variants):
+    """Из списка падежных вариантов берём ближайший к словарной лемме по общему
+    началу: для Ērks родительный даёт [Ārkas, Ārkisa, Ērkus, ...] -> Ērkus."""
+    lemma_l = (lemma or "").lower()
+
+    def score(v):
+        v_l = (v or "").lower()
+        i = 0
+        while i < min(len(lemma_l), len(v_l)) and lemma_l[i] == v_l[i]:
+            i += 1
+        return i
+
+    return max(variants, key=score) if variants else None
+
+
+def _render_propername_ru_to_pr(token, forced_case=None, agreement=None):
+    """Прусская форма имени по русской словоформе (направление RU -> PR).
+
+    Таблица propernames.json хранит заранее просчитанные русские формы, поэтому
+    ищем токен напрямую; падеж берём из предлога/согласования, иначе — из самой
+    русской формы. Возвращает строку либо None, если имя не найдено."""
+    hit = _ru_name_index.get(_clean_ru_token(token))
+    if not hit:
+        return None
+    entry, num, ru_case = hit
+    # Падеж уже выражен самой русской словоформой ("Эркуса" — родительный);
+    # принудительный падеж берём только если форма имени номинативная,
+    # иначе согласование с главным словом ("паспорт Эркуса") ломает падеж.
+    surface_ru_case = _PR_CASE_TO_RU.get(ru_case, "nomn")
+    target_ru_case = surface_ru_case
+    if surface_ru_case == "nomn" and forced_case:
+        target_ru_case = forced_case
+    pr_case = _RU_TO_PR_CASE.get(target_ru_case, "nom")
+    pr = entry.get("pr") or {}
+    form = (pr.get(num) or {}).get(pr_case)
+    if form is None:
+        form = (pr.get("sg") or {}).get(pr_case)
+    if isinstance(form, list):
+        form = _closest_variant(entry.get("lemma") or "", form)
+    if not form:
+        return None
+    if token[:1].isupper():
+        form = form[:1].upper() + form[1:]
+    return form
 
 
 def _lookup_propername(clean_token):
@@ -1954,6 +2077,7 @@ def translate_pr_sentence_json(sentence):
     if held:
         _flush_held(out_words, debug, held)
     result = " ".join(out_words).replace(" ,", ",").replace(" .", ".").replace(" ?", "?").replace(" !", "!")
+    result = result.replace("( ", "(").replace(" )", ")")
     # Русское предложение: первая буква заглавная и после .!? (собственные имена
     # уже пришли с заглавной из словаря — .upper() к ним не меняет букву).
     result = re.sub(r"(^|[.!?]\s+)(\w)", lambda m: m.group(1) + m.group(2).upper(), result)
