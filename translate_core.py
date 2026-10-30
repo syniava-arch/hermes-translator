@@ -60,7 +60,10 @@ _ru_index = {}
 _override_by_id = {}
 _preposition_index = {}
 _pr_preposition_senses = {}
-_phrasebook = {}
+_phrasebook = {}         # нормализованная RU-фраза -> готовый PR-перевод
+_pr_phrasebook = {}      # прусская фраза (нормализованная) -> готовый RU-перевод
+_pr_phrasebook_folded = {}  # то же без макронов - запасной вариант поиска
+_pr_phrasebook_max_words = 1
 _pr_to_ru_priority = {}
 _ru_to_pr_priority = {}
 _ru_max_phrase_words = 1
@@ -244,45 +247,71 @@ def _iter_pr_form_keys(form):
 
 
 def _load_phrasebook(phrasebook_json_str):
-    """Загружает небольшую таблицу устойчивых выражений/алиасов.
+    """Загружает таблицу устойчивых выражений и готовых пар корпуса.
 
     Формат намеренно простой: список объектов с полем ru (строка или список
-    строк), pr/out и необязательным note. Phrasebook имеет приоритет над
-    автоматическим пословным разбором, но не заменяет словарь.
+    строк), pr/out, необязательным ru_out и note. Русская сторона строит
+    индекс RU -> PR, прусская - индекс PR -> RU, поэтому одна и та же
+    статья работает в обоих направлениях.
     """
     if not phrasebook_json_str:
-        return {}, 1
+        return {}, {}, 1, 1
     try:
         data = json.loads(phrasebook_json_str)
     except Exception:
-        return {}, 1
+        return {}, {}, 1, 1
     if isinstance(data, dict):
         data = data.get("phrases", [])
     if not isinstance(data, list):
-        return {}, 1
+        return {}, {}, 1, 1
 
     phrases = {}
+    pr_phrases = {}
     max_words = 1
+    pr_max_words = 1
     for item in data:
         if not isinstance(item, dict):
             continue
-        ru_values = item.get("ru") or item.get("source") or item.get("from")
+        note = item.get("note") or "phrasebook"
         out = item.get("pr") or item.get("out") or item.get("to")
         if isinstance(out, list):
             # в данных 'pr' иногда лежит список вариантов — берём первый
             out = out[0] if out else ""
-        if not ru_values or not out:
-            continue
+        out = str(out or "").strip()
+
+        ru_values = item.get("ru") or item.get("source") or item.get("from")
         if isinstance(ru_values, str):
             ru_values = [ru_values]
-        note = item.get("note") or "phrasebook"
+        if not isinstance(ru_values, list):
+            ru_values = []
+
+        ru_out = item.get("ru_out")
+        if isinstance(ru_out, list):
+            ru_out = ru_out[0] if ru_out else ""
+        ru_out = str(ru_out or "").strip()
+        if not ru_out and ru_values:
+            ru_out = str(ru_values[0]).strip()
+
+        # RU -> PR: ключом служит каждая русская формулировка статьи.
+        # Если статья заведена только со стороны PR (ru_out без ru), русский
+        # текст тоже должен находиться - добавляем его в список ключей.
+        if ru_out and ru_out not in ru_values:
+            ru_values = ru_values + [ru_out]
         for ru in ru_values:
             key = _clean_ru_chunk(str(ru))
-            if not key:
+            if not key or not out:
                 continue
-            phrases[key] = {"out": str(out), "note": note}
+            phrases[key] = {"out": out, "note": note}
             max_words = max(max_words, len(key.split()))
-    return phrases, max_words
+
+        # PR -> RU: ключом служит прусская фраза; перевод берём из ru_out,
+        # а если его нет - из первой русской формулировки
+        if out and ru_out:
+            pr_key = _clean_pr_phrase(out)
+            if pr_key and pr_key not in pr_phrases:
+                pr_phrases[pr_key] = {"out": ru_out, "note": note, "src": out}
+                pr_max_words = max(pr_max_words, len(pr_key.split()))
+    return phrases, pr_phrases, max_words, pr_max_words
 
 
 def _load_priorities(priorities_json_str):
@@ -393,10 +422,15 @@ def _synthesize_fresh_entries(dictionary, overrides):
 
 
 def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None, priorities_json_str=None, propernames_json_str=None):
-    global _ru_index, _override_by_id, _preposition_index, _pr_preposition_senses, _phrasebook, _pr_to_ru_priority, _ru_to_pr_priority, _ru_max_phrase_words, _pr_index, _pr_index_folded, _pr_max_phrase_words, _propernames, _propername_lemma_index, _propername_form_index
+    global _ru_index, _override_by_id, _preposition_index, _pr_preposition_senses, _phrasebook, _pr_phrasebook, _pr_phrasebook_folded, _pr_phrasebook_max_words, _pr_to_ru_priority, _ru_to_pr_priority, _ru_max_phrase_words, _pr_index, _pr_index_folded, _pr_max_phrase_words, _propernames, _propername_lemma_index, _propername_form_index
     dictionary = json.loads(dictionary_json_str)
     overrides = json.loads(overrides_json_str)
-    _phrasebook, phrasebook_max_words = _load_phrasebook(phrasebook_json_str)
+    (_phrasebook, _pr_phrasebook, phrasebook_max_words,
+     pr_phrasebook_max_words) = _load_phrasebook(phrasebook_json_str)
+    _pr_phrasebook_folded = {}
+    for _pr_key, _pr_value in _pr_phrasebook.items():
+        _pr_phrasebook_folded.setdefault(fold_diacritics(_pr_key), _pr_value)
+    _pr_phrasebook_max_words = pr_phrasebook_max_words
     _pr_to_ru_priority, _ru_to_pr_priority = _load_priorities(priorities_json_str)
     _build_propername_index(propernames_json_str)
 
@@ -485,14 +519,14 @@ def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None,
             for form, label in _collect_forms(override.get("conjugation")):
                 add_pr_form(e, form, label)
     _pr_index = pr_index
-    _pr_max_phrase_words = pr_max_phrase_words
+    _pr_max_phrase_words = max(pr_max_phrase_words, _pr_phrasebook_max_words)
 
     pr_index_folded = {}
     for form_lower, matches in pr_index.items():
         pr_index_folded.setdefault(fold_diacritics(form_lower), []).extend(matches)
     _pr_index_folded = pr_index_folded
 
-    return {"words": len(dictionary), "overrides": len(_override_by_id), "prepositions": len(preposition_index), "phrases": len(_phrasebook), "propernames": len(_propernames)}
+    return {"words": len(dictionary), "overrides": len(_override_by_id), "prepositions": len(preposition_index), "phrases": len(_phrasebook) + len(_pr_phrasebook), "propernames": len(_propernames)}
 
 
 def pick_noun_form(override, gender_guess, number, case):
@@ -944,6 +978,16 @@ def _numeral_governs(value, next_lemma):
 
 
 def translate_sentence_json(sentence):
+    # Готовая статья корпуса важнее пословного разбора: длинная фраза с
+    # запятыми иначе разваливается на куски и переводится «по словам».
+    whole_key = _clean_ru_chunk(sentence)
+    whole_hit = _phrasebook.get(whole_key) if whole_key else None
+    if whole_hit:
+        text = str(whole_hit["out"]).strip()
+        return json.dumps({"translation": text, "words": [
+            {"src": sentence.strip(), "out": text, "note": whole_hit["note"]}
+        ]}, ensure_ascii=False)
+
     tokens = re.findall(r"[\wа-яёА-ЯЁ-]+|[^\w\s]", sentence, flags=re.UNICODE)
     out_words, debug = [], []
     pending_case = None          # управление ближайшим предлогом
@@ -1795,6 +1839,15 @@ def _match_pr_phrase(tokens, start_idx):
         j += 1
     for size in range(len(parts), 1, -1):
         phrase_key = " ".join(parts[:size])
+        pb = (_pr_phrasebook.get(phrase_key)
+              or _pr_phrasebook_folded.get(fold_diacritics(phrase_key)))
+        if pb:
+            return {
+                "end": positions[size - 1] + 1,
+                "src": " ".join(tokens[start_idx:positions[size - 1] + 1]),
+                "out": pb["out"],
+                "note": pb["note"],
+            }
         found = _lookup_pr(phrase_key)
         if found:
             entry, label = found
@@ -1890,6 +1943,19 @@ def _head_noun_ahead(tokens, start, limit=6):
 
 
 def translate_pr_sentence_json(sentence):
+    # Готовая пара из корпуса перекрывает пословный разбор: иначе длинная
+    # прусская реплика собирается из отдельных глосс и читается как набор слов.
+    whole_key = _clean_pr_phrase(sentence)
+    whole_hit = None
+    if whole_key:
+        whole_hit = (_pr_phrasebook.get(whole_key)
+                     or _pr_phrasebook_folded.get(fold_diacritics(whole_key)))
+    if whole_hit:
+        text = str(whole_hit["out"]).strip()
+        return json.dumps({"translation": text, "words": [
+            {"src": sentence.strip(), "out": text, "note": whole_hit["note"]}
+        ]}, ensure_ascii=False)
+
     tokens = re.findall(r"[\wāēīōūâêîôûàèìòùáéíóúŠšČčŽž-]+|[^\w\s]", sentence, flags=re.UNICODE)
     out_words, debug = [], []
     pending_ru_case = None       # русский падеж после прусского предлога
