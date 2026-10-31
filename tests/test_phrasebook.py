@@ -8,6 +8,7 @@
 """
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -57,5 +58,28 @@ print(f"\nпар в фразбуке: {len(pairs)}")
 print(f"провалов: {len(fail)}")
 for direction, src, exp, got in fail[:20]:
     print(f"\n[{direction}] {src}\n  ждали: {exp}\n  вышло: {got}")
+
+
+# --- несколько предложений одним вводом -------------------------------------
+# Фраза корпуса не должна «ломаться» о запятую внутри себя, а склейка двух
+# реплик должна давать склейку их переводов, а не пословную кашу.
+multi_fail = []
+for (pr1, ru1), (pr2, ru2) in zip(pairs, pairs[1:]):
+    got = json.loads(tc.translate_pr_sentence_json(f"{pr1} {pr2}"))["translation"].strip()
+    want = f"{ru1.strip()} {ru2.strip()}"
+
+    def canon(x):
+        x = re.sub(r"[^\w\s-]", " ", x.lower().replace("—", " "))
+        return " ".join(x.split())
+
+    if canon(got) != canon(want):
+        multi_fail.append((f"{pr1} {pr2}", want, got))
+
+print(f"\nсклеек по два предложения: {len(pairs) - 1}")
+print(f"провалов: {len(multi_fail)}")
+for src, exp, got in multi_fail[:10]:
+    print(f"\n[2 предложения] {src}\n  ждали: {exp}\n  вышло: {got}")
+
+fail.extend(multi_fail)
 
 sys.exit(1 if fail else 0)

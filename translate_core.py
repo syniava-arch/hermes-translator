@@ -171,6 +171,17 @@ def _clean_ru_token(token):
     return re.sub(r"[^\wа-яёА-ЯЁ-]", "", token, flags=re.UNICODE).lower()
 
 
+def _norm_ru_key(text):
+    """Ключ русской фразы для фразбука.
+
+    Знаки препинания внутри фразы не должны различать ключи: «... статью, где
+    было написано, что ...» и тот же текст без запятых — одна статья.
+    """
+    key = _clean_ru_chunk(text)
+    key = re.sub(r"[^\wа-яё-]+", " ", key, flags=re.UNICODE)
+    return re.sub(r"\s+", " ", key).strip()
+
+
 def _split_ru_field(ru_field):
     # Кроме запятых/слэшей/точек с запятой в словаре встречаются пары фраз
     # через вопросительный или восклицательный знак: "Как дела? Как поживаешь?".
@@ -205,6 +216,18 @@ def _clean_pr_phrase(text):
     пробелы, чтобы 'Kāigi tebbei ēit?' находилось по токенам без вопроса."""
     text = re.sub(r"[^\wāēīōūâêîôûàèìòùáéíóúŠšČčŽž-]+", " ", text, flags=re.UNICODE)
     return re.sub(r"\s+", " ", text).strip().lower()
+
+
+def _norm_pr_key(text):
+    """Ключ прусской фразы для поиска в фразбуке.
+
+    Отличие от _clean_pr_phrase: тире, стоящее отдельным словом, схлопывается
+    так же, как запятая, — «As bilāi: - Kāigi» и «As bilāi Kāigi» дают один ключ.
+    """
+    key = _clean_pr_phrase(text)
+    while " - " in key:
+        key = key.replace(" - ", " ")
+    return key.strip()
 
 
 def _expand_pr_slash_alternatives(form):
@@ -298,7 +321,7 @@ def _load_phrasebook(phrasebook_json_str):
         if ru_out and ru_out not in ru_values:
             ru_values = ru_values + [ru_out]
         for ru in ru_values:
-            key = _clean_ru_chunk(str(ru))
+            key = _norm_ru_key(str(ru))
             if not key or not out:
                 continue
             phrases[key] = {"out": out, "note": note}
@@ -307,7 +330,7 @@ def _load_phrasebook(phrasebook_json_str):
         # PR -> RU: ключом служит прусская фраза; перевод берём из ru_out,
         # а если его нет - из первой русской формулировки
         if out and ru_out:
-            pr_key = _clean_pr_phrase(out)
+            pr_key = _norm_pr_key(out)
             if pr_key and pr_key not in pr_phrases:
                 pr_phrases[pr_key] = {"out": ru_out, "note": note, "src": out}
                 pr_max_words = max(pr_max_words, len(pr_key.split()))
@@ -904,6 +927,40 @@ def translate_word(token, forced_case=None):
 def _match_ru_phrase(tokens, start_idx):
     if _ru_max_phrase_words <= 1:
         return None
+
+    # Фразы фразбука длиннее пары слов почти всегда содержат запятую. Собираем
+    # слова, пропуская запятые и тире, и останавливаемся на границе фразы.
+    pb_parts = []
+    pb_positions = []
+    j = start_idx
+    while j < len(tokens) and len(pb_parts) < _ru_max_phrase_words:
+        tok = tokens[j]
+        if PUNCT_TOKEN_RE.match(tok):
+            if tok in ".!?":
+                break
+            j += 1
+            continue
+        if not WORD_TOKEN_RE.match(tok):
+            break
+        clean = _clean_ru_token(tok)
+        if not clean:
+            break
+        pb_parts.append(clean)
+        pb_positions.append(j)
+        j += 1
+    for size in range(len(pb_parts), 1, -1):
+        phrase = " ".join(pb_parts[:size])
+        phrase_override = _phrasebook.get(phrase)
+        if phrase_override:
+            end_pos = pb_positions[size - 1]
+            return {
+                "end": end_pos + 1,
+                "src": " ".join(tokens[start_idx:end_pos + 1]),
+                "out": phrase_override["out"],
+                "note": phrase_override["note"],
+            }
+
+    # Словарные многословные статьи - только по подряд идущим словам.
     parts = []
     positions = []
     j = start_idx
@@ -917,21 +974,11 @@ def _match_ru_phrase(tokens, start_idx):
                 break
             parts.append(clean)
             positions.append(j)
-            phrase = " ".join(parts)
-            # Нужен самый длинный вариант, поэтому не возвращаем сразу.
         else:
             break
         j += 1
     for size in range(len(parts), 1, -1):
         phrase = " ".join(parts[:size])
-        phrase_override = _phrasebook.get(phrase)
-        if phrase_override:
-            return {
-                "end": positions[size - 1] + 1,
-                "src": " ".join(tokens[start_idx:positions[size - 1] + 1]),
-                "out": phrase_override["out"],
-                "note": phrase_override["note"],
-            }
         candidates = _ru_index.get(phrase)
         if candidates:
             entry, _ = choose_candidate(candidates, None, phrase)
@@ -980,7 +1027,7 @@ def _numeral_governs(value, next_lemma):
 def translate_sentence_json(sentence):
     # Готовая статья корпуса важнее пословного разбора: длинная фраза с
     # запятыми иначе разваливается на куски и переводится «по словам».
-    whole_key = _clean_ru_chunk(sentence)
+    whole_key = _norm_ru_key(sentence)
     whole_hit = _phrasebook.get(whole_key) if whole_key else None
     if whole_hit:
         text = str(whole_hit["out"]).strip()
@@ -1787,6 +1834,14 @@ def translate_pr_word(token):
     if not clean:
         return token, None
 
+    # Однословные статьи корпуса (Ahā, Jā, ēngliskai, Kwēi) должны работать и
+    # внутри длинного текста, а не только при переводе слова целиком.
+    pb = _pr_phrasebook.get(clean)
+    if pb is None:
+        pb = _pr_phrasebook_folded.get(fold_diacritics(clean))
+    if pb:
+        return pb["out"], pb["note"]
+
     tied = _select_pr_matches_tied(clean)
     if not tied:
         # Собственные имена часто отсутствуют в dictionary.json; PN‑таблица
@@ -1821,6 +1876,51 @@ def translate_pr_word(token):
 def _match_pr_phrase(tokens, start_idx):
     if _pr_max_phrase_words <= 1:
         return None
+
+    # Фразы корпуса часто содержат запятые и тире ("... peisātan, kāi ..."),
+    # поэтому фразбук ищем по словам, пропуская внутрифразовую пунктуацию и
+    # останавливаясь только на границе предложения.
+    pb_parts = []
+    pb_positions = []
+    j = start_idx
+    while j < len(tokens) and len(pb_parts) < _pr_max_phrase_words:
+        tok = tokens[j]
+        if PR_PUNCT_TOKEN_RE.match(tok):
+            if tok in ".!?":
+                break
+            j += 1
+            continue
+        if not PR_WORD_TOKEN_RE.match(tok):
+            break
+        clean = _clean_pr_token(tok)
+        if not clean:
+            break
+        pb_parts.append(clean)
+        pb_positions.append(j)
+        j += 1
+    for size in range(len(pb_parts), 1, -1):
+        phrase_key = " ".join(pb_parts[:size])
+        pb = (_pr_phrasebook.get(phrase_key)
+              or _pr_phrasebook_folded.get(fold_diacritics(phrase_key)))
+        if pb:
+            end_pos = pb_positions[size - 1]
+            # закрывающие кавычки и скобки принадлежат фразе, а знак в конце
+            # не дублируем, если он уже есть в готовом переводе
+            k = end_pos + 1
+            while k < len(tokens) and PR_PUNCT_TOKEN_RE.match(tokens[k]) and tokens[k] not in ".!?":
+                k += 1
+            if (k < len(tokens) and tokens[k] in ".!?"
+                    and str(pb["out"]).rstrip().endswith(tokens[k])):
+                k += 1
+            return {
+                "end": k,
+                "src": " ".join(tokens[start_idx:k]),
+                "out": pb["out"],
+                "note": pb["note"],
+            }
+
+    # Многословные статьи словаря - только по подряд идущим токенам: через
+    # запятую они не должны склеиваться.
     parts = []
     positions = []
     j = start_idx
@@ -1839,15 +1939,6 @@ def _match_pr_phrase(tokens, start_idx):
         j += 1
     for size in range(len(parts), 1, -1):
         phrase_key = " ".join(parts[:size])
-        pb = (_pr_phrasebook.get(phrase_key)
-              or _pr_phrasebook_folded.get(fold_diacritics(phrase_key)))
-        if pb:
-            return {
-                "end": positions[size - 1] + 1,
-                "src": " ".join(tokens[start_idx:positions[size - 1] + 1]),
-                "out": pb["out"],
-                "note": pb["note"],
-            }
         found = _lookup_pr(phrase_key)
         if found:
             entry, label = found
@@ -1945,7 +2036,7 @@ def _head_noun_ahead(tokens, start, limit=6):
 def translate_pr_sentence_json(sentence):
     # Готовая пара из корпуса перекрывает пословный разбор: иначе длинная
     # прусская реплика собирается из отдельных глосс и читается как набор слов.
-    whole_key = _clean_pr_phrase(sentence)
+    whole_key = _norm_pr_key(sentence)
     whole_hit = None
     if whole_key:
         whole_hit = (_pr_phrasebook.get(whole_key)
@@ -1998,6 +2089,19 @@ def translate_pr_sentence_json(sentence):
             out_words.append(phrase["out"])
             debug.append({"src": phrase["src"], "out": phrase["out"], "note": phrase["note"]})
             i = phrase["end"]
+            continue
+
+        # Однословные статьи корпуса (Ahā, Jā, ēngliskai, Kwēi, Prawerru) имеют
+        # тот же приоритет, что и многословные: иначе внутри длинного текста они
+        # уходят в словарные глоссы и получают не тот смысл.
+        pb_word = (_pr_phrasebook.get(clean)
+                   or _pr_phrasebook_folded.get(fold_diacritics(clean)))
+        if pb_word:
+            if held:
+                _flush_held(out_words, debug, held)
+            out_words.append(pb_word["out"])
+            debug.append({"src": tok, "out": pb_word["out"], "note": pb_word["note"]})
+            i += 1
             continue
 
         prefer_pos = None
