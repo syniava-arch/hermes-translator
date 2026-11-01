@@ -33,18 +33,19 @@ cases = [
     # FIXED: wālinsnā with macron and middle n
     ("battle", "Pakarwjas wālinsnā", "Покарвис сражение"),
 
-    # P2 — date "22 Января" + unit "d" handling
-    ("date-22", "Raggas 22d.", "Январь [22d?]."),
+    # P2 — date "22 Января" + unit "d" handling (d → «д.», слияние 22d разделяется)
+    ("date-22", "Raggas 22d.", "Январь 22 д."),
 
-    # P2/P3 — papeisātan participle, date reorder
-    ("written", "Papeisātan: Raggas 22d.", "Написавшие : январь [22d?]."),
+    # P2/P3 — papeisātan: override.ru «написана» имеет приоритет над
+    # словарным инфинитивом; d → «д.»
+    ("written", "Papeisātan: Raggas 22d.", "Написана : январь 22 д."),
 
     # warē→мощь ✓, Ebwarē PN Победа ✓; Pakarwjas adj "Покарвиская" = P3
     ("power-victory", "Pakarwjas warē, warewīngi Ebwarē!", "Покарвис мощь, могучая Победа!"),
 
-    # FIXED: wālinsnā
+    # FIXED: wālinsnā; d → «д.»
     ("year-battle", "En 1261 m. raggas 22 d. audāi si Pakarwjas wālinsnā",
-     "В 1261 г. Январь 22 [d?]. Произошло покарвис сражение"),
+     "В 1261 г. Январь 22 д. Произошло покарвис сражение"),
 
     # Names reorder ✓, verb participle (P2), miksjans (P2), Натангия (P2), prei reorder (P3)
     ("prussians-win", "Prūsai sen Ērkun Māntan ebwarīwusis miksjans en Nātangai, prei Pakarwjas kāiman",

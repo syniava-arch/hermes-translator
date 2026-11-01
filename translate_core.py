@@ -1306,12 +1306,17 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
         _pr_to_ru_priority.get(str(entry.get("i")).lower()) or
         _pr_to_ru_priority.get((entry.get("w") or "").lower())
     )
-    ru_field = entry.get("ru", "")
+    # Override.ru — ручная правка перевода конкретной формы (напр., «Papeisātan»
+    # → «написана»). Словарная статья того же id может нести инфинитив
+    # («написать»), и pymorphy превращал его в «написавшие» при склонении по
+    # пустой метке. Даём override приоритет над словарным ru.
+    override = _override_by_id.get(entry.get("i"))
+    override_ru = (override or {}).get("ru") if isinstance(override, dict) else None
+    ru_field = (override_ru or "") or entry.get("ru", "")
     first_chunk = _split_ru_field(ru_field)[0] if ru_field else ""
     gloss = manual_gloss or _clean_ru_chunk(first_chunk) or ru_field.strip() or "?"
 
     note_form = label.replace(".", "/") if label else "словарная форма"
-    override = _override_by_id.get(entry.get("i"))
     pos = classify_pos(entry, override)
 
     pronoun = _ru_pronoun_form(entry, label)
@@ -1391,6 +1396,11 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
 
     if grammemes:
         p = morph.parse(gloss)[0]
+        # Краткие прилагательные/причастия (PRTS) в русском не склоняются по
+        # падежам: «написана» не надо превращать в «написанная» по пустой
+        # метке. Возвращаем как есть.
+        if "PRTS" in str(p.tag):
+            return gloss, note_form
         try:
             inflected = p.inflect(grammemes)
         except Exception:
@@ -2072,6 +2082,18 @@ def translate_pr_sentence_json(sentence):
         ]}, ensure_ascii=False)
 
     tokens = re.findall(r"[\wāēīōūâêîôûàèìòùáéíóúŠšČčŽž-]+|[^\w\s]", sentence, flags=re.UNICODE)
+    # Сокращения года/дня сливаются с числом без пробела: «22d», «1273m».
+    # Разбиваем на «число» + «буква-суффикс», иначе токен «22d» не найдётся
+    # в словаре и суффикс d/m не сработает (как m → «г.»).
+    split_tokens = []
+    for _tok in tokens:
+        _m_split = re.match(r"^(\d+)([a-zāēīōūâêîôûàèìòùáéíóúŠšČčŽž]+)$", _tok, flags=re.UNICODE)
+        if _m_split and _m_split.group(1) and _m_split.group(2):
+            split_tokens.append(_m_split.group(1))
+            split_tokens.append(_m_split.group(2))
+        else:
+            split_tokens.append(_tok)
+    tokens = split_tokens
     out_words, debug = [], []
     pending_ru_case = None       # русский падеж после прусского предлога
     subject_agreement = None     # подлежащее для выбора лица/числа глагола
