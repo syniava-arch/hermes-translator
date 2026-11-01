@@ -2053,6 +2053,8 @@ def translate_pr_sentence_json(sentence):
     subject_agreement = None     # подлежащее для выбора лица/числа глагола
     pending_number = False       # предыдущий токен — числительное/квантор (gen.pl)
     held = []                    # P1: отложенные принадлежательные родительные имена
+    last_was_phrasebook = False  # последний токен был частью фразбуковой пары
+    prev_was_subject_name = False  # предыдущий токен — имя в именительном (субъект)
     i = 0
     n = len(tokens)
     while i < n:
@@ -2064,6 +2066,8 @@ def translate_pr_sentence_json(sentence):
                 out_words.append(tok)
             pending_ru_case = None
             pending_number = False
+            last_was_phrasebook = False
+            prev_was_subject_name = False
             # Запятая часто отделяет приложение: подлежащее сохраняем, точка — нет.
             if tok in ".!?":
                 subject_agreement = None
@@ -2077,6 +2081,8 @@ def translate_pr_sentence_json(sentence):
             out_words.append(tok)
             debug.append({"src": tok, "out": tok, "note": "число"})
             pending_number = True
+            last_was_phrasebook = False
+            prev_was_subject_name = False
             i += 1
             continue
         if clean.lower() in PR_GEN_PL_QUANTIFIERS:
@@ -2089,6 +2095,7 @@ def translate_pr_sentence_json(sentence):
             out_words.append(phrase["out"])
             debug.append({"src": phrase["src"], "out": phrase["out"], "note": phrase["note"]})
             i = phrase["end"]
+            last_was_phrasebook = True
             continue
 
         # Однословные статьи корпуса (Ahā, Jā, ēngliskai, Kwēi, Prawerru) имеют
@@ -2102,6 +2109,8 @@ def translate_pr_sentence_json(sentence):
             out_words.append(pb_word["out"])
             debug.append({"src": tok, "out": pb_word["out"], "note": pb_word["note"]})
             i += 1
+            last_was_phrasebook = False
+            prev_was_subject_name = False
             continue
 
         prefer_pos = None
@@ -2119,13 +2128,19 @@ def translate_pr_sentence_json(sentence):
                 and pn_name_hit is not None
                 and _head_noun_ahead(tokens, i)
                 and not (subject_agreement is None and not out_words and not held
-                         and pn_name_hit[2] == "nom")):
+                         and pn_name_hit[2] == "nom")
+                and not last_was_phrasebook
+                and not prev_was_subject_name):
             pn = _render_propername(tok, forced_case="gent")
             if pn and pn.get("out"):
                 held.append({"src": tok, "out": pn["out"], "note": pn["note"]})
                 i += 1
+                last_was_phrasebook = False
+                prev_was_subject_name = False
                 continue
 
+        last_was_phrasebook = False
+        prev_was_subject_name = False
         # Proper-name priority: если слово написано с заглавной буквы и совпадает
         # с леммой/алиасом из PN‑таблицы — отдаём его, даже если такая форма встречается
         # в словаре как обычное слово (Māntas ≈ mānta «сокровище»).
@@ -2142,8 +2157,10 @@ def translate_pr_sentence_json(sentence):
                         # удерживаем падеж, если имя ещё не кончилось
                         if not _prep_phrase_continues(tokens, i):
                             pending_ru_case = None
+                        prev_was_subject_name = False
                     else:
                         subject_agreement = {"person": "3per", "number": pn["number"], "gender": pn["gender"]}
+                        prev_was_subject_name = True
                     i += 1
                     continue
 
