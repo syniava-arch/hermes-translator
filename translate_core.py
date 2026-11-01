@@ -1434,6 +1434,20 @@ def _select_pr_match(clean_key, prefer_pos=None, verb_agreement=None):
     if not matches:
         return None
 
+    # Проверяем, есть ли среди совпадений форма причастия из спряжения глагола,
+    # а также альтернативная не-глагольная статья (напр., прилагательное
+    # «мертвый» для aulaūwuns). Если есть и то, и то — отдаём причастие.
+    has_participle_from_verb = False
+    has_nonverb_with_gloss = False
+    for entry, label in matches:
+        override = _override_by_id.get(entry.get("i"))
+        pos = classify_pos(entry, override)
+        if "particip" in (label or "").lower() and pos == "VERB":
+            has_participle_from_verb = True
+        if pos != "VERB" and _entry_has_ru_gloss(entry) and not entry.get("x"):
+            has_nonverb_with_gloss = True
+    prefer_participle = has_participle_from_verb and has_nonverb_with_gloss
+
     def score(match):
         entry, label = match
         override = _override_by_id.get(entry.get("i"))
@@ -1442,6 +1456,15 @@ def _select_pr_match(clean_key, prefer_pos=None, verb_agreement=None):
         verb_miss = 0
         if prefer_pos == "VERB" and verb_agreement:
             verb_miss = 0 if _label_matches_agreement(label, verb_agreement) else 1
+        # Причастие из спряжения в overrides имеет приоритет только когда
+        # рядом есть не-глагольная статья (aulaūwuns → «умерший» из глагола,
+        # а не «мертвый» из прилагательного). Для обычных случаев (papeisātan)
+        # эта логика не включается.
+        is_participle_bonus = (
+            prefer_participle
+            and "particip" in (label or "").lower()
+            and pos == "VERB"
+        )
         # В словаре бывают дублеты: сначала cross-ref без русского gloss, затем
         # полноценная статья с переводом (например, aulaūwuns). Для обратного
         # перевода выбираем статью, из которой реально можно получить русский
@@ -1450,6 +1473,7 @@ def _select_pr_match(clean_key, prefer_pos=None, verb_agreement=None):
             not _entry_has_ru_gloss(entry),
             pos_miss,
             verb_miss,
+            0 if is_participle_bonus else 1,
             label == "" if prefer_pos == "VERB" else label != "",
             bool(entry.get("x")),
         )
