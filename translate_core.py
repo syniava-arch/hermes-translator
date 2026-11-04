@@ -1741,6 +1741,11 @@ def _build_propername_index(propernames_json_str):
                             old_pri2 = existing2[0].get("priority")
                             if new_pri2 is not None and (old_pri2 is None or new_pri2 < old_pri2):
                                 _propername_form_index[folded] = (entry_l, num, pr_case)
+                        else:
+                            new_pri2 = entry_l.get("priority")
+                            old_pri2 = existing2[0].get("priority")
+                            if new_pri2 is not None and (old_pri2 is None or new_pri2 < old_pri2):
+                                _propername_form_index[folded] = (entry_l, num, pr_case)
         ru = entry.get("ru") or {}
         try:
             for num_key, cases in ru.items():             # "sg" | "pl"
