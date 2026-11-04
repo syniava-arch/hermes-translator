@@ -114,7 +114,7 @@
       "id": "name-pr-to-ru",
       "dir": "pr->ru",
       "in": "Abdāngan as wīda",
-      "expect": "Я Абдангаса вижу",
+      "expect": "Я Абдангса вижу",
       "mode": "exact",
       "status": "required",
       "source": "имена, 2026-11-02"
