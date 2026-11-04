@@ -1,141 +1,141 @@
 {
- "version": 1,
- "comment": "Golden-набор: фразы вне корпуса. required — обязано работать, known-weak — известно, что пока плохо. Пополнение: python3 scripts/add_golden.py",
- "cases": [
-  {
-   "id": "erkus-pass",
-   "dir": "ru->pr",
-   "in": "Прусский паспорт Эркуса Мантаса",
-   "expect": "Ērkus Māntas prūsisks pass",
-   "mode": "exact",
-   "status": "known-weak",
-   "source": "пользователь, tests/pru_ru_samples.json"
-  },
-  {
-   "id": "erkus-pass-short",
-   "dir": "ru->pr",
-   "in": "Паспорт Эркуса Мантаса",
-   "expect": "Ērkus Māntas pass",
-   "mode": "exact",
-   "status": "known-weak",
-   "source": "пользователь, tests/pru_ru_samples.json"
-  },
-  {
-   "id": "erks-legend",
-   "dir": "ru->pr",
-   "in": "По легендам тевтонского ордена Эркус Мантас умер в 1273 году",
-   "expect": "Pa Teutōtiskas ōrdenas legēndans Ērks Mānts aulaūwuns en 1273 mettan",
-   "mode": "exact",
-   "status": "known-weak",
-   "source": "пользователь, tests/pru_ru_samples.json"
-  },
-  {
-   "id": "750-years",
-   "dir": "ru->pr",
-   "in": "В этом году (2023 г.) уже 750 лет",
-   "expect": "Šin mettan (2023 m) ast jāu 750 mettans",
-   "mode": "exact",
-   "status": "known-weak",
-   "source": "пользователь, tests/pru_ru_samples.json"
-  },
-  {
-   "id": "have-passport",
-   "dir": "ru->pr",
-   "in": "Мы теперь имеем паспорт Эркуса Мантаса и несколько других страниц паспорта",
-   "expect": "Mes teinū turrimai Ērkus Māntas passan be delli kittans passas pāusans",
-   "mode": "exact",
-   "status": "known-weak",
-   "source": "пользователь, tests/pru_ru_samples.json"
-  },
-  {
-   "id": "freq-verb-wida",
-   "dir": "ru->pr",
-   "in": "Я вижу дом",
-   "expect": "as wīda buttan",
-   "mode": "exact",
-   "status": "required",
-   "source": "частота корпуса, 2026-11-02"
-  },
-  {
-   "id": "place-static-les",
-   "dir": "ru->pr",
-   "in": "Дом в лесу",
-   "expect": "buttan en meddju",
-   "mode": "exact",
-   "status": "required",
-   "source": "локатив, 2026-11-02"
-  },
-  {
-   "id": "place-motion-city",
-   "dir": "ru->pr",
-   "in": "Он идёт в город",
-   "expect": "tāns ēit en mēstan",
-   "mode": "exact",
-   "status": "required",
-   "source": "локатив, 2026-11-02"
-  },
-  {
-   "id": "place-static-lithuania",
-   "dir": "ru->pr",
-   "in": "Он живёт в Литве",
-   "expect": "tāns gīwa en Leītawai",
-   "mode": "exact",
-   "status": "required",
-   "source": "локатив, 2026-11-02"
-  },
-  {
-   "id": "name-erks-nom",
-   "dir": "ru->pr",
-   "in": "Эркс живёт в Литве",
-   "expect": "Ērks gīwa en Leītawai",
-   "mode": "exact",
-   "status": "required",
-   "source": "имена, 2026-11-02"
-  },
-  {
-   "id": "name-mantas-akk",
-   "dir": "ru->pr",
-   "in": "Я вижу Мантаса",
-   "expect": "as wīda Māntan",
-   "mode": "exact",
-   "status": "required",
-   "source": "имена, 2026-11-02"
-  },
-  {
-   "id": "name-erks-ru-alias",
-   "dir": "ru->pr",
-   "in": "Эркус живёт в Литве",
-   "expect": "Ērks gīwa en Leītawai",
-   "mode": "exact",
-   "status": "required",
-   "source": "пользователь: вариант написания Эркус"
-  },
-  {
-   "id": "name-pr-to-ru",
-   "dir": "pr->ru",
-   "in": "Abdāngan as wīda",
-   "expect": "Я Абдангса вижу",
-   "mode": "exact",
-   "status": "required",
-   "source": "имена, 2026-11-02"
-  },
-  {
-   "id": "name-pr-alias-herkus",
-   "dir": "pr->ru",
-   "in": "Hērkus ast mans brāti",
-   "expect": "Эркс есть мы брат",
-   "mode": "exact",
-   "status": "required",
-   "source": "пользователь: в текстах встречается Hērkus и Gērkus"
-  },
-  {
-   "id": "temporal-akk-year",
-   "dir": "ru->pr",
-   "in": "В этом году холодно",
-   "expect": "šin mettan saltan",
-   "mode": "exact",
-   "status": "required",
-   "source": "правило времени, 2026-11-03"
-  }
- ]
+  "version": 1,
+  "comment": "Golden-набор: фразы вне корпуса. required — обязано работать, known-weak — известно, что пока плохо. Пополнение: python3 scripts/add_golden.py",
+  "cases": [
+    {
+      "id": "erkus-pass",
+      "dir": "ru->pr",
+      "in": "Прусский паспорт Эркуса Мантаса",
+      "expect": "Ērkus Māntas prūsisks pass",
+      "mode": "exact",
+      "status": "known-weak",
+      "source": "пользователь, tests/pru_ru_samples.json"
+    },
+    {
+      "id": "erkus-pass-short",
+      "dir": "ru->pr",
+      "in": "Паспорт Эркуса Мантаса",
+      "expect": "Ērkus Māntas pass",
+      "mode": "exact",
+      "status": "known-weak",
+      "source": "пользователь, tests/pru_ru_samples.json"
+    },
+    {
+      "id": "erks-legend",
+      "dir": "ru->pr",
+      "in": "По легендам тевтонского ордена Эркус Мантас умер в 1273 году",
+      "expect": "Pa Teutōtiskas ōrdenas legēndans Ērks Mānts aulaūwuns en 1273 mettan",
+      "mode": "exact",
+      "status": "known-weak",
+      "source": "пользователь, tests/pru_ru_samples.json"
+    },
+    {
+      "id": "750-years",
+      "dir": "ru->pr",
+      "in": "В этом году (2023 г.) уже 750 лет",
+      "expect": "Šin mettan (2023 m) ast jāu 750 mettans",
+      "mode": "exact",
+      "status": "known-weak",
+      "source": "пользователь, tests/pru_ru_samples.json"
+    },
+    {
+      "id": "have-passport",
+      "dir": "ru->pr",
+      "in": "Мы теперь имеем паспорт Эркуса Мантаса и несколько других страниц паспорта",
+      "expect": "Mes teinū turrimai Ērkus Māntas passan be delli kittans passas pāusans",
+      "mode": "exact",
+      "status": "known-weak",
+      "source": "пользователь, tests/pru_ru_samples.json"
+    },
+    {
+      "id": "freq-verb-wida",
+      "dir": "ru->pr",
+      "in": "Я вижу дом",
+      "expect": "as wīda buttan",
+      "mode": "exact",
+      "status": "required",
+      "source": "частота корпуса, 2026-11-02"
+    },
+    {
+      "id": "place-static-les",
+      "dir": "ru->pr",
+      "in": "Дом в лесу",
+      "expect": "buttan en meddju",
+      "mode": "exact",
+      "status": "required",
+      "source": "локатив, 2026-11-02"
+    },
+    {
+      "id": "place-motion-city",
+      "dir": "ru->pr",
+      "in": "Он идёт в город",
+      "expect": "tāns ēit en mēstan",
+      "mode": "exact",
+      "status": "required",
+      "source": "локатив, 2026-11-02"
+    },
+    {
+      "id": "place-static-lithuania",
+      "dir": "ru->pr",
+      "in": "Он живёт в Литве",
+      "expect": "tāns gīwa en Leītawai",
+      "mode": "exact",
+      "status": "required",
+      "source": "локатив, 2026-11-02"
+    },
+    {
+      "id": "name-erks-nom",
+      "dir": "ru->pr",
+      "in": "Эркс живёт в Литве",
+      "expect": "Ērks gīwa en Leītawai",
+      "mode": "exact",
+      "status": "required",
+      "source": "имена, 2026-11-02"
+    },
+    {
+      "id": "name-mantas-akk",
+      "dir": "ru->pr",
+      "in": "Я вижу Мантаса",
+      "expect": "as wīda Māntan",
+      "mode": "exact",
+      "status": "required",
+      "source": "имена, 2026-11-02"
+    },
+    {
+      "id": "name-erks-ru-alias",
+      "dir": "ru->pr",
+      "in": "Эркус живёт в Литве",
+      "expect": "Ērks gīwa en Leītawai",
+      "mode": "exact",
+      "status": "required",
+      "source": "пользователь: вариант написания Эркус"
+    },
+    {
+      "id": "name-pr-to-ru",
+      "dir": "pr->ru",
+      "in": "Abdāngan as wīda",
+      "expect": "Я Абдангаса вижу",
+      "mode": "exact",
+      "status": "required",
+      "source": "имена, 2026-11-02"
+    },
+    {
+      "id": "name-pr-alias-herkus",
+      "dir": "pr->ru",
+      "in": "Hērkus ast mans brāti",
+      "expect": "Эркс есть мы брат",
+      "mode": "exact",
+      "status": "required",
+      "source": "пользователь: в текстах встречается Hērkus и Gērkus"
+    },
+    {
+      "id": "temporal-akk-year",
+      "dir": "ru->pr",
+      "in": "В этом году холодно",
+      "expect": "šin mettan saltan",
+      "mode": "exact",
+      "status": "required",
+      "source": "правило времени, 2026-11-03"
+    }
+  ]
 }

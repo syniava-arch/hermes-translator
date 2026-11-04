@@ -1730,15 +1730,31 @@ def _build_propername_index(propernames_json_str):
                         elif new_pri == old_pri and entry_l is existing[0]:
                             # Same entry, keep existing
                             pass
+                    # Запасной вариант без макронов: ввод часто бывает без диакритики
+                    folded = fold_diacritics(form_lower)
+                    if folded != form_lower:
+                        existing2 = _propername_form_index.get(folded)
+                        if existing2 is None:
+                            _propername_form_index[folded] = (entry_l, num, pr_case)
+                        else:
+                            new_pri2 = entry_l.get("priority")
+                            old_pri2 = existing2[0].get("priority")
+                            if new_pri2 is not None and (old_pri2 is None or new_pri2 < old_pri2):
+                                _propername_form_index[folded] = (entry_l, num, pr_case)
         ru = entry.get("ru") or {}
-        for num_key, cases in ru.items():             # "sg" | "pl"
-            num = "pl" if "pl" in num_key.lower() else "sg"
-            for ru_case, form in cases.items():
-                forms = form if isinstance(form, list) else [form]
-                for variant in forms:
-                    form_lower = (variant or "").lower()
-                    if form_lower:
-                        _ru_name_index[form_lower] = (entry_l, num, ru_case)
+        try:
+            for num_key, cases in ru.items():             # "sg" | "pl"
+                num = "pl" if "pl" in num_key.lower() else "sg"
+                for ru_case, form in cases.items():
+                    forms = form if isinstance(form, list) else [form]
+                    for variant in forms:
+                        form_lower = (variant or "").lower()
+                        if form_lower:
+                            _ru_name_index[form_lower] = (entry_l, num, ru_case)
+        except Exception as e:
+            if 'abd' in (entry.get('lemma') or '').lower():
+                print(f"ERROR indexing ru for {entry.get('lemma')}: {e}")
+
 
 
 def _closest_variant(lemma, variants):
@@ -1793,7 +1809,10 @@ def _lookup_propername(clean_token):
     entry = _propername_lemma_index.get(clean_token)
     if entry:
         return entry, "sg", "nom"
-    return _propername_form_index.get(clean_token)
+    hit = _propername_form_index.get(clean_token)
+    if hit is None:
+        hit = _propername_form_index.get(fold_diacritics(clean_token))
+    return hit
 
 
 def _render_propername(token, forced_case=None, agreement=None):
