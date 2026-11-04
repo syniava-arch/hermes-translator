@@ -165,28 +165,6 @@ def classify_pos(entry, override):
     if w.endswith(("tun", "twei", "tuns")):
         return "VERB"
     return "NOUN"
-    # В поле s часть речи не всегда стоит первой: например,
-    # "gen māise, pn po 1 sg ..." для majs. Поэтому смотрим все токены.
-    s_tokens = set(re.findall(r"[a-z]+", s))
-    # У предлогов иногда есть дополнительная помета "(av)"; предлог должен
-    # выигрывать у наречия.
-    if "prp" in s_tokens:
-        return "PREP"
-    for code, pos in POS_PREFIX_MAP.items():
-        if code != "prp" and code in s_tokens:
-            return pos
-    if override:
-        if isinstance(override.get("conjugation"), dict):
-            return "VERB"
-        para = override.get("paradigm")
-        if isinstance(para, dict) and "positive" in para:
-            return "ADJF"
-        if isinstance(para, dict):
-            return "NOUN"
-    w = entry.get("w", "")
-    if w.endswith(("tun", "twei", "tuns")):
-        return "VERB"
-    return "NOUN"
 
 
 def _ru_case_marker_from_chunk(chunk):
