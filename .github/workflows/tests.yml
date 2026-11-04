@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Установить pymorphy3
+        run: pip install pymorphy3
+
+      - name: Фразбук в обе стороны
+        run: python3 tests/test_phrasebook.py
+
+      - name: Имена и локатив
+        run: python3 tests/test_names.py
+
+      - name: Golden-набор
+        run: python3 tests/test_golden.py
+
+      - name: Генератор имён воспроизводим
+        run: |
+          python3 scripts/build_propernames.py
+          git diff --exit-code data/propernames.json

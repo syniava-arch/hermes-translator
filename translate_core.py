@@ -24,10 +24,15 @@ PYMORPHY_TO_LOCAL = {
     "CONJ": "CONJ", "PRCL": "PRCL", "INTJ": "INTJ",
 }
 
-CASE_MAP = {"nomn": "nom", "gent": "gen", "datv": "dat", "accs": "akk", "ablt": None, "loct": None}
-CASE_MAP_INV = {"nom": "nomn", "gen": "gent", "dat": "datv", "akk": "accs"}
-RU_CASE_MARKER_TO_LOCAL = {"acc": "akk", "dat": "dat", "gen": "gen", "loc": "dat", "instr": "akk"}
-PYMORPHY_CASE_TO_RU_MARKER = {"accs": "acc", "datv": "dat", "gent": "gen", "loct": "loc", "ablt": "instr"}
+CASE_MAP = {"nomn": "nom", "gent": "gen", "datv": "dat", "accs": "akk", "ablt": None, "loct": "loc",
+            "gen2": "gen", "acc2": "akk", "loc2": "loc"}
+CASE_MAP_INV = {"nom": "nomn", "gen": "gent", "dat": "datv", "akk": "accs", "loc": "loct"}
+# "loc" здесь не откат в датив: локатив выводится из генитива парадигмы
+# (см. _derive_loc_from_gen), а в корпусе он и правда стоит после en:
+# "Mes asmai teinū en Leītawai", "en widzemei".
+RU_CASE_MARKER_TO_LOCAL = {"acc": "akk", "dat": "dat", "gen": "gen", "loc": "loc", "instr": "akk"}
+PYMORPHY_CASE_TO_RU_MARKER = {"accs": "acc", "acc2": "acc", "datv": "dat", "gent": "gen",
+                               "gen2": "gen", "loct": "loc", "loc2": "loc", "ablt": "instr"}
 GENDER_MAP = {"masc": "masc", "femn": "fem", "neut": "neut"}
 GENDER_MAP_INV = {"masc": "masc", "fem": "femn", "neut": "neut"}
 NUMBER_MAP = {"sing": "sg", "plur": "pl"}
@@ -70,6 +75,8 @@ _ru_max_phrase_words = 1
 _pr_index = {}          # точная форма (в нижнем регистре) -> [(entry, label), ...]
 _pr_index_folded = {}   # то же, но без макронов - запасной вариант поиска
 _pr_max_phrase_words = 1
+_entry_freq = {}                  # id статьи -> сколько раз её формы встречаются в корпусе
+_headword_index = {}              # заголовок в нижнем регистре -> статья
 _propernames = {}                 # lemma(lower) -> entry (PN-словарь)
 _propername_lemma_index = {}      # любая форма/алиас имени (lower) -> entry
 _propername_form_index = {}       # pr-форма(lower) -> (entry, number["sg"|"pl"], pr_case)
@@ -127,6 +134,37 @@ PR_PREP_RU_CASE = {
 
 def classify_pos(entry, override):
     s = entry.get("s", "").lower()
+    # В поле s часть речи не всегда стоит первой: например,
+    # "gen māise, pn po 1 sg ..." для majs. Поэтому смотрим все токены.
+    s_tokens = set(re.findall(r"[a-z]+", s))
+    # У предлогов иногда есть дополнительная помета "(av)"; предлог должен
+    # выигрывать у наречия.
+    if "prp" in s_tokens:
+        return "PREP"
+    # Заглушки форм (x=true) — это «āntran = acc от Āntars», у них в s нет
+    # части речи, и раньше они все считались существительными. Из-за этого
+    # местоимение tenā («она») проигрывало статье dis («он, она, тот, та»).
+    # Часть речи берём у базовой статьи, на которую ссылается b, ТОЛЬКО если
+    # у самой заглушки в s нет части речи (sen имеет prp в s, не delegating).
+    if not s_tokens and entry.get("x") and entry.get("b"):
+        base = _headword_index.get((entry.get("b") or "").lower())
+        if base is not None and base is not entry and base.get("i") != entry.get("i"):
+            return classify_pos(base, _override_by_id.get(base.get("i")))
+    for code, pos in POS_PREFIX_MAP.items():
+        if code != "prp" and code in s_tokens:
+            return pos
+    if override:
+        if isinstance(override.get("conjugation"), dict):
+            return "VERB"
+        para = override.get("paradigm")
+        if isinstance(para, dict) and "positive" in para:
+            return "ADJF"
+        if isinstance(para, dict):
+            return "NOUN"
+    w = entry.get("w", "")
+    if w.endswith(("tun", "twei", "tuns")):
+        return "VERB"
+    return "NOUN"
     # В поле s часть речи не всегда стоит первой: например,
     # "gen māise, pn po 1 sg ..." для majs. Поэтому смотрим все токены.
     s_tokens = set(re.findall(r"[a-z]+", s))
@@ -445,7 +483,7 @@ def _synthesize_fresh_entries(dictionary, overrides):
 
 
 def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None, priorities_json_str=None, propernames_json_str=None):
-    global _ru_index, _override_by_id, _preposition_index, _pr_preposition_senses, _phrasebook, _pr_phrasebook, _pr_phrasebook_folded, _pr_phrasebook_max_words, _pr_to_ru_priority, _ru_to_pr_priority, _ru_max_phrase_words, _pr_index, _pr_index_folded, _pr_max_phrase_words, _propernames, _propername_lemma_index, _propername_form_index
+    global _ru_index, _override_by_id, _preposition_index, _pr_preposition_senses, _phrasebook, _pr_phrasebook, _pr_phrasebook_folded, _pr_phrasebook_max_words, _pr_to_ru_priority, _ru_to_pr_priority, _ru_max_phrase_words, _pr_index, _pr_index_folded, _pr_max_phrase_words, _entry_freq, _headword_index, _propernames, _propername_lemma_index, _propername_form_index
     dictionary = json.loads(dictionary_json_str)
     overrides = json.loads(overrides_json_str)
     (_phrasebook, _pr_phrasebook, phrasebook_max_words,
@@ -480,6 +518,7 @@ def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None,
     # без русского gloss (например, tenēi "они"). Добавляем безопасные
     # лемматические алиасы, чтобы pymorphy3 мог склонять их через overrides.
     by_headword = {e.get("w"): e for e in dictionary}
+    _headword_index = {(e.get("w") or "").lower(): e for e in dictionary if e.get("w")}
     if "они" not in ru_index and by_headword.get("tāns"):
         ru_index["они"] = [by_headword["tāns"]]
     if "этот" in ru_index:
@@ -549,7 +588,42 @@ def load_data(dictionary_json_str, overrides_json_str, phrasebook_json_str=None,
         pr_index_folded.setdefault(fold_diacritics(form_lower), []).extend(matches)
     _pr_index_folded = pr_index_folded
 
+    # Частоты статей по корпусу фразбука. Считаем по словоформам, а не по
+    # заголовкам: «waīda» и «widāwuns» должны отдавать вес статье wīdātun,
+    # хотя её инфинитива в тексте может не быть ни разу.
+    corpus_tokens = {}
+    for corpus_key in _pr_phrasebook:
+        for token in corpus_key.split():
+            if token:
+                corpus_tokens[token] = corpus_tokens.get(token, 0) + 1
+    entry_freq = {}
+    for token, count in corpus_tokens.items():
+        for entry, _label in _lookup_pr_matches(token):
+            entry_freq[entry.get("i")] = entry_freq.get(entry.get("i"), 0) + count
+    _entry_freq = entry_freq
+
     return {"words": len(dictionary), "overrides": len(_override_by_id), "prepositions": len(preposition_index), "phrases": len(_phrasebook) + len(_pr_phrasebook), "propernames": len(_propernames)}
+
+
+def _derive_loc_from_gen(gen_form):
+    """Локатив из генитива: парадигмы его не содержат (только nom/gen/dat/akk).
+
+    Правило проверено на формах из корпуса: gen «Leītawas» → loc «Leītawai»
+    ("... en Leītawai"), gen «wīrdas» → loc «wīrdai», gen «widzemes» →
+    loc «widzemei» ("en widzemei"). Основы -a- дают -ai, основы -e-/-i- — -ei.
+    """
+    if not isinstance(gen_form, str):
+        return None
+    form = gen_form.strip()
+    if not form or " " in form:
+        return None
+    if form.endswith("as"):
+        return form[:-2] + "ai"
+    if form.endswith(("es", "is")):
+        return form[:-2] + "ei"
+    if form.endswith("s"):
+        return form[:-1] + "ai"
+    return None
 
 
 def pick_noun_form(override, gender_guess, number, case):
@@ -563,6 +637,10 @@ def pick_noun_form(override, gender_guess, number, case):
         nv = gv.get(number)
         if isinstance(nv, dict) and nv.get(case):
             return nv[case]
+        # У прилагательных локатива нет; в корпусе на его месте стоит
+        # форма, совпадающая с дативом ("en kawīdsmu deīktu"), её и берём.
+        if case == "loc" and isinstance(nv, dict) and nv.get("dat"):
+            return nv["dat"]
     return None
 
 
@@ -580,6 +658,13 @@ def pick_adj_form(override, gender_guess, number, case, degree="positive"):
         nv = gv.get(number)
         if isinstance(nv, dict) and nv.get(case):
             return nv[case]
+        # Локатив в данных отсутствует — выводим его из генитива того же
+        # числа, но только для единственного: форм мн. ч. в корпусе нет,
+        # и придумывать их не из чего.
+        if case == "loc" and number == "sg" and isinstance(nv, dict):
+            derived = _derive_loc_from_gen(nv.get("gen"))
+            if derived:
+                return derived
     return None
 
 
@@ -626,9 +711,18 @@ def choose_candidate(candidates, wanted_pos, ru_key=None):
         compatible_pronoun = wanted_pos == "ADJF" and pos == "NPRO"
         w_lower = (e.get("w") or "").lower()
         priority = preferred.index(w_lower) if w_lower in preferred else 10_000
+        # Статья, у которой глосс ровно этот русский смысл, точнее статьи с
+        # набором «он, она, тот, та». Сравниваем первый смысл, а не всю строку.
+        first_gloss = _clean_ru_chunk((e.get("ru") or "").split(",")[0])
+        exact_gloss = 0 if first_gloss and first_gloss == _clean_ru_chunk(ru_key or "") else 1
+        # Частота в корпусе: живой текст важнее порядка в файле. Порог 50
+        # чтобы одна очень частая статья не забивала всё остальное.
+        freq = min(_entry_freq.get(e["i"], 0), 50)
         score = (
             0 if pos_match or compatible_pronoun else 1,
             priority,
+            exact_gloss,
+            -freq,
             0 if override else 1,
             order,
         )
@@ -689,28 +783,64 @@ def _preposition_key(clean):
     return clean if clean in _preposition_index else PREPOSITION_ALIASES.get(clean)
 
 
+def _prefer_corpus_form(choices):
+    """Среди равнозначных вариантов берёт тот, что встречается в корпусе.
+
+    Словарь даёт «ēn» (с макроном) и «en»; живой текст последовательно пишет
+    «en». Порядок в файле об этом ничего не знает, частота знает.
+    """
+    if len(choices) < 2:
+        return choices[0]
+    best = max(choices, key=lambda c: _entry_freq.get((c.get("entry") or {}).get("i"), 0))
+    if _entry_freq.get((best.get("entry") or {}).get("i"), 0) > 0:
+        return best
+    return choices[0]
+
+
 def _select_preposition(clean, next_parse=None):
     key = _preposition_key(clean)
     if not key or key not in _preposition_index:
         return None
     choices = _preposition_index[key]
+
+    # Варианты одного и того же предлога в словаре различаются написанием
+    # (ēn/en) и пометкой падежа. Сначала сужаем набор до форм, которые реально
+    # встречаются в корпусе: «en» — то, как пишет текст, «ēn» — как в словаре.
+    attested = [c for c in choices
+                if _entry_freq.get((c.get("entry") or {}).get("i"), 0) > 0]
+    pool = attested or choices
+
     preferred = _ru_to_pr_priority.get(key, [])
     for pref in preferred:
-        for choice in choices:
+        for choice in pool:
             if (choice.get("word") or "").lower() == pref:
                 return choice
     if next_parse is not None:
         ru_case = PYMORPHY_CASE_TO_RU_MARKER.get(next_parse.tag.case)
         if ru_case:
-            for choice in choices:
-                if choice.get("ru_case") == ru_case:
-                    return choice
+            matching = [c for c in pool if c.get("ru_case") == ru_case]
+            if matching:
+                return matching[0]
             local_case = CASE_MAP.get(next_parse.tag.case)
             if local_case:
-                for choice in choices:
-                    if choice.get("gov") == local_case:
-                        return choice
-    return choices[0]
+                matching = [c for c in pool if c.get("gov") == local_case]
+                if matching:
+                    return matching[0]
+            # Смысл с нужным падежом в словаре есть, но его написание в
+            # корпусе не встречается (у en засвидетельствован только akk-смысл,
+            # loc-смысл записан как ēn). Берём управление у нужного смысла,
+            # а написание — у формы из корпуса: "en Leītawai", не "ēn Leītawai".
+            fallback_sense = [c for c in choices if c.get("ru_case") == ru_case]
+            if not fallback_sense and local_case:
+                fallback_sense = [c for c in choices if c.get("gov") == local_case]
+            if fallback_sense and attested:
+                merged = dict(fallback_sense[0])
+                merged["word"] = attested[0].get("word") or merged.get("word")
+                return merged
+            # пометки падежа нет (en), но такая форма в корпусе — берём её
+            if attested:
+                return attested[0]
+    return pool[0]
 
 
 def _next_word_parse(tokens, start_idx, max_words=5):
@@ -1586,8 +1716,20 @@ def _build_propername_index(propernames_json_str):
                 forms = form if isinstance(form, list) else [form]
                 for variant in forms:
                     form_lower = (variant or "").lower()
-                    if form_lower:
+                    if not form_lower:
+                        continue
+                    existing = _propername_form_index.get(form_lower)
+                    if existing is None:
                         _propername_form_index[form_lower] = (entry_l, num, pr_case)
+                    else:
+                        # Prefer lower priority number (1 > 50), then higher entry
+                        new_pri = entry_l.get("priority")
+                        old_pri = existing[0].get("priority")
+                        if new_pri is not None and (old_pri is None or new_pri < old_pri):
+                            _propername_form_index[form_lower] = (entry_l, num, pr_case)
+                        elif new_pri == old_pri and entry_l is existing[0]:
+                            # Same entry, keep existing
+                            pass
         ru = entry.get("ru") or {}
         for num_key, cases in ru.items():             # "sg" | "pl"
             num = "pl" if "pl" in num_key.lower() else "sg"
@@ -2105,6 +2247,7 @@ def translate_pr_sentence_json(sentence):
     n = len(tokens)
     while i < n:
         tok = tokens[i]
+
         if PR_PUNCT_TOKEN_RE.match(tok):
             if held:
                 _flush_held(out_words, debug, held)
@@ -2190,8 +2333,10 @@ def translate_pr_sentence_json(sentence):
         # Proper-name priority: если слово написано с заглавной буквы и совпадает
         # с леммой/алиасом из PN‑таблицы — отдаём его, даже если такая форма встречается
         # в словаре как обычное слово (Māntas ≈ mānta «сокровище»).
+
         if tok[:1].isupper():
             pn_hit = _lookup_propername(clean)
+
             if pn_hit and (pn_hit[2] == "nom" or pending_ru_case):
                 pn = _render_propername(tok, forced_case=pending_ru_case)
                 if pn:
