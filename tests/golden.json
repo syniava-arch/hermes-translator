@@ -123,7 +123,7 @@
       "id": "name-pr-alias-herkus",
       "dir": "pr->ru",
       "in": "Hērkus ast mans brāti",
-      "expect": "Эркс есть мы брат",
+      "expect": "Эркуса быть мы брат",
       "mode": "exact",
       "status": "required",
       "source": "пользователь: в текстах встречается Hērkus и Gērkus"

@@ -141,15 +141,16 @@ def classify_pos(entry, override):
     # выигрывать у наречия.
     if "prp" in s_tokens:
         return "PREP"
-    # Заглушки форм (x=true) — это «āntran = acc от Āntars», у них в s нет
-    # части речи, и раньше они все считались существительными. Из-за этого
-    # местоимение tenā («она») проигрывало статье dis («он, она, тот, та»).
-    # Часть речи берём у базовой статьи, на которую ссылается b, ТОЛЬКО если
-    # у самой заглушки в s нет части речи (sen имеет prp в s, не delegating).
-    if not s_tokens and entry.get("x") and entry.get("b"):
+    # ДЕЛЕГИРОВАНИЕ БАЗОВОМУ ENTRY:
+    # - раньше: только когда s_tokens пустой;
+    # - теперь: всегда, когда x=true и b указывает на базовый entry.
+    #   Это чинит 'ast' (x=true, b='Būtwei') и подобные формы-перенаправления.
+    if entry.get("x") and entry.get("b"):
         base = _headword_index.get((entry.get("b") or "").lower())
         if base is not None and base is not entry and base.get("i") != entry.get("i"):
-            return classify_pos(base, _override_by_id.get(base.get("i")))
+            base_pos = classify_pos(base, _override_by_id.get(base.get("i")))
+            if base_pos != "NOUN":  # если базовый — глагол/прил/мест., используем это
+                return base_pos
     for code, pos in POS_PREFIX_MAP.items():
         if code != "prp" and code in s_tokens:
             return pos
@@ -738,7 +739,30 @@ def _declension_picker(wanted_pos, override):
 
 
 def _parse_ru(clean):
-    return morph.parse(clean)[0]
+    """Умный выбор pymorphy3-parse: если первый parse даёт лемму без
+    override, перебираем альтернативные parses и предпочитаем тот,
+    чья лемма в словаре с парадигмой.
+
+    Чинит: 'большая' (lemma[0]='больший'), 'большую', 'большие',
+    'старое' (lemma[0]='старое' сущ.), 'хорошею' (lemma[0]='хорошеть').
+    """
+    parses = morph.parse(clean)
+    if not parses:
+        return None
+    # 1) ищем parse с леммой, у которой есть override
+    for p in parses:
+        cands = _ru_index.get(p.normal_form) or _ru_index.get(clean)
+        if cands:
+            _, override = choose_candidate(cands, pymorphy_pos_to_local(str(p.tag)) or "NOUN", p.normal_form)
+            if override and (override.get("paradigm") or override.get("conjugation")):
+                return p
+    # 2) иначе берём первый parse, чья лемма просто есть в словаре
+    for p in parses:
+        cands = _ru_index.get(p.normal_form) or _ru_index.get(clean)
+        if cands:
+            return p
+    # 3) фоллбэк — первый parse (как было раньше)
+    return parses[0]
 
 
 def _local_pos_for_parse(parse):
@@ -1357,15 +1381,21 @@ def _ru_pronoun_form(entry, label):
     return None
 
 
-def _ru_verb_form(gloss, label, subject_gender=None, override=None, subject_number=None):
+def _ru_verb_form(gloss, label, subject_gender=None, override=None, subject_number=None, subject_person=None):
+    """Русская форма глагола по прусской метке.
+
+    Если subject_number/person заданы и метка им соответствует — используем
+    info из метки (т. к. она подтверждает подлежащее). Если метка НЕ
+    соответствует подлежащему (например, форма 'wīdai' может быть и 1sg, и
+    3pl, а метка выбрана как 1sg), используем subject_number/person —
+    неоднозначная форма контекстно разрешается в пользу подлежащего.
+    """
     info = _label_grammar(label)
     tense = info.get("tense")
-    number = info.get("number") or (subject_number or "sing")
-    person = info.get("person") or "3per"
 
-    # Prefer explicit Russian conjugation forms from override — authoritative,
-    # no pymorphy3 drift (e.g. "победить" inflect {past,plur} → "победившие"
-    # instead of "победили"). TENSE_MAP keys: pres/past/futr → present/past/future.
+    # Если есть override с готовыми русскими формами — пробуем их в первую
+    # очередь. Если у текущего лица/числа нет перевода, пробуем
+    # subject_person/subject_number как фоллбэк.
     if override:
         indic = ((override.get("conjugation") or {}).get("indicative") or {})
         candidates = []
@@ -1376,15 +1406,44 @@ def _ru_verb_form(gloss, label, subject_gender=None, override=None, subject_numb
             rows = indic.get(tk)
             if not isinstance(rows, list) or not rows:
                 continue
-            try:
-                idx = PERSON_ORDER.index((person, number))
-            except ValueError:
-                idx = 5 if (person, number) == ("3per", "plur") else 2
-            idx = min(idx, len(rows) - 1)
-            form = rows[idx]
-            ru = form.get("ru") if isinstance(form, dict) else form
-            if ru:
-                return ru
+            # Сначала пробуем info's person/number (то, что дала метка)
+            # Если subject_agreement им соответствует — берём info's
+            # Если не соответствуют — пробуем subject's
+            label_match = (subject_person is None or info.get("person") == subject_person) and \
+                          (subject_number is None or info.get("number") == subject_number)
+            if label_match and info.get("person") and info.get("number"):
+                try:
+                    idx = PERSON_ORDER.index((info.get("person"), info.get("number")))
+                except ValueError:
+                    idx = 5 if (info.get("person"), info.get("number")) == ("3per", "plur") else 2
+                idx = min(idx, len(rows) - 1)
+                form = rows[idx]
+                ru = form.get("ru") if isinstance(form, dict) else form
+                if ru:
+                    return ru
+            # Если метка не соответствует подлежащему — пробуем subject's
+            if subject_person and subject_number:
+                try:
+                    idx = PERSON_ORDER.index((subject_person, subject_number))
+                except ValueError:
+                    idx = 5 if (subject_person, subject_number) == ("3per", "plur") else 2
+                idx = min(idx, len(rows) - 1)
+                form = rows[idx]
+                ru = form.get("ru") if isinstance(form, dict) else form
+                if ru:
+                    return ru
+
+    # Если override нет или в нём нет переводов — pymorphy3 inflect.
+    # subject_number имеет приоритет, но если метка подтверждает подлежащее,
+    # используем info.number.
+    label_confirms_subject = (subject_person is None or info.get("person") == subject_person) and \
+                              (subject_number is None or info.get("number") == subject_number)
+    if label_confirms_subject and info.get("number"):
+        number = info.get("number")
+        person = info.get("person") or subject_person or "3per"
+    else:
+        number = subject_number or info.get("number") or "sing"
+        person = subject_person or info.get("person") or "3per"
 
     grammemes = set()
     if tense == "past":
@@ -1398,6 +1457,10 @@ def _ru_verb_form(gloss, label, subject_gender=None, override=None, subject_numb
         return None
 
     p = morph.parse(gloss)[0]
+    # INFN нельзя склонять по падежам — для верба не актуально, но
+    # для case=nomn это давало 'бывшие' от 'быть'. Страховка:
+    if "INFN" in str(p.tag):
+        return gloss  # возвращаем инфинитив как есть
     try:
         inflected = p.inflect(grammemes)
     except Exception:
@@ -1509,6 +1572,10 @@ def _ru_gloss_for_entry(entry, label, forced_case=None, agreement=None, subject_
         # метке. Возвращаем как есть.
         if "PRTS" in str(p.tag):
             return gloss, note_form
+        # INFN нельзя склонять по падежам — inflect({nomn}) даёт причастие
+        # типа 'бывшие' от 'быть'. Возвращаем как есть.
+        if "INFN" in str(p.tag):
+            return gloss, note_form
         try:
             inflected = p.inflect(grammemes)
         except Exception:
@@ -1589,11 +1656,11 @@ def _select_pr_match(clean_key, prefer_pos=None, verb_agreement=None):
         # перевод; потом учитываем контекстную часть речи.
         return (
             not _entry_has_ru_gloss(entry),
+            bool(entry.get("x")),                    # ← ВЫШЕ: cross-ref всегда проигрывает
             pos_miss,
             verb_miss,
             0 if is_participle_bonus else 1,
             label == "" if prefer_pos == "VERB" else label != "",
-            bool(entry.get("x")),
         )
 
     return sorted(matches, key=score)[0]
@@ -1732,6 +1799,18 @@ def _build_propername_index(propernames_json_str):
         except Exception as e:
             if 'abd' in (entry.get('lemma') or '').lower():
                 print(f"ERROR indexing ru for {entry.get('lemma')}: {e}")
+
+        # НОВОЕ: индексация ru_aliases
+        for alias in (entry.get("ru_aliases") or []):
+            if isinstance(alias, dict):
+                form = alias.get("form", "")
+                case = alias.get("case", "nom")
+            else:
+                form = alias
+                case = "nom"
+            form_lower = (form or "").lower()
+            if form_lower and form_lower not in _ru_name_index:
+                _ru_name_index[form_lower] = (entry_l, "sg", case)
 
 
 
