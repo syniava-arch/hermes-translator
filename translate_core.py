@@ -43,6 +43,35 @@ PERSON_ORDER = [
 ]
 TENSE_MAP = {"pres": "present", "past": "past", "futr": "future"}
 
+# Определение частей речи по invariant gloss - для служебных слов
+# без явных помет в поле s (ni "не", stwen "там" и т.п.)
+def _invariant_pos_from_gloss(entry):
+    """Если русский gloss однословный и pymorphy знает его ТОЛЬКО 
+    как частицу/союз/наречие/междометие — возвращаем эту часть речи.
+    Чинит 'As ni waīda' → 'Я не вижу' вместо 'Я не знает'."""
+    gloss = entry.get("ru", "").lower().strip()
+    if not gloss or " " in gloss:
+        return None
+    
+    # Проверяем, что это однословный gloss
+    if len(gloss.split()) != 1:
+        return None
+    
+    # Списки invariant частей речи, которые pymorphy может распознать
+    invariant_pos = {
+        # частицы
+        "не", "ни", "и", "а", "но", "же", "ли", "что", "бы", "уж", "ведь", "вот",
+        # союзы  
+        "и", "а", "но", "или", "что", "чтобы", "если", "когда", "потому", "так",
+        # наречия
+        "там", "здесь", "туда", "сюда", "тогда", "сейчас", "всегда", "никогда", "где",
+        "когда", "как", "почему", "зачем", "куда", "откуда", "куда-то", "откуда-то",
+        # междометия
+        "ах", "ой", "эх", "браво", "ура", "ха", "хи", "гм", "эм", "угу", "неа"
+    }
+    
+    return "PRCL" if gloss in invariant_pos else None
+
 # для диакритики, которую пишущий может не набрать (макроны и т.п.);
 # š/č/ž/ģ и т.д. НЕ сворачиваются - в проекте это отдельные буквы
 _DIACRITIC_FOLD = str.maketrans({
@@ -133,7 +162,9 @@ PR_PREP_RU_CASE = {
 
 
 def classify_pos(entry, override):
-    s = entry.get("s", "").lower()
+    s = entry.get("s", "")
+    if s is None:
+        s = ""
     # В поле s часть речи не всегда стоит первой: например,
     # "gen māise, pn po 1 sg ..." для majs. Поэтому смотрим все токены.
     s_tokens = set(re.findall(r"[a-z]+", s))
@@ -155,6 +186,9 @@ def classify_pos(entry, override):
         if code != "prp" and code in s_tokens:
             return pos
     if override:
+        # Сначала проверяем явный pos в override
+        if 'pos' in override:
+            return override['pos']
         if isinstance(override.get("conjugation"), dict):
             return "VERB"
         para = override.get("paradigm")
@@ -165,6 +199,14 @@ def classify_pos(entry, override):
     w = entry.get("w", "")
     if w.endswith(("tun", "twei", "tuns")):
         return "VERB"
+    # Служебные слова без помет в s (ni "не", stwen "там" и т.п.) раньше
+    # получали NOUN по умолчанию; из-за этого `As ni waīda` ломало подлежащее
+    # и давало "Я не знает". Если русский gloss — однословный и pymorphy
+    # знает его ТОЛЬКО как частицу/союз/наречие/междометие — берём эту часть речи.
+    if not override:
+        inv = _invariant_pos_from_gloss(entry)
+        if inv:
+            return inv
     return "NOUN"
 
 

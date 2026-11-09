@@ -205411,5 +205411,50 @@
     "ru": "Абдангса",
     "l": "A",
     "f": ""
+  },
+  {
+    "i": 2233889,
+    "w": "es",
+    "ru": "быть",
+    "l": "W",
+    "s": "prp",
+    "de": "sein",
+    "en": "to be",
+    "lt": "būti",
+    "lv": "būt",
+    "pl": "być"
+  },
+  {
+    "i": 2233890,
+    "w": "man",
+    "ru": "меня",
+    "l": "P",
+    "s": "dat",
+    "de": "mich",
+    "en": "me",
+    "lt": "mane",
+    "lv": "mani"
+  },
+  {
+    "i": 2233891,
+    "w": "Widmaīs",
+    "ru": "видимо",
+    "l": "A",
+    "s": "av",
+    "de": "offenbar",
+    "en": "apparently",
+    "lt": "matyt",
+    "lv": "skati"
+  },
+  {
+    "i": 2233892,
+    "w": "Mēns",
+    "ru": "я",
+    "l": "P",
+    "s": "nom sg m",
+    "de": "ich",
+    "en": "I",
+    "lt": "aš",
+    "lv": "es"
   }
 ]

@@ -853243,5 +853243,72 @@
     "ru": "Эркуса быть мы брат",
     "pr": "Hērkus ast mans brāti",
     "note": "golden test case name-pr-alias-herkus"
+  },
+  {
+    "word": "ni",
+    "ru": "не",
+    "pr": "ni",
+    "note": "Fix ni to be particle instead of noun",
+    "pos": "PRCL"
+  },
+  {
+    "id": 3877,
+    "ru": "не",
+    "pos": "PRCL"
+  },
+  {
+    "id": 2233887,
+    "ru": "вижу",
+    "pos": "VERB"
+  },
+  {
+    "word": "As ni wīda",
+    "ru": "Я не вижу",
+    "pr": "As ni wīda",
+    "note": "Fix As ni wīda translation"
+  },
+  {
+    "id": 2233889,
+    "ru": "есть",
+    "pos": "VERB"
+  },
+  {
+    "word": "Mēns aulaūwuns es",
+    "ru": "Я был мертв",
+    "pr": "Mēns aulaūwuns es",
+    "note": "Fix Mēns aulaūwuns es translation"
+  },
+  {
+    "id": 2233890,
+    "ru": "меня",
+    "pos": "PRON"
+  },
+  {
+    "word": "Mēs man",
+    "ru": "Мы мне",
+    "pr": "Mēs man",
+    "note": "Fix Mēs man translation"
+  },
+  {
+    "id": 2233891,
+    "ru": "видимо",
+    "pos": "ADV"
+  },
+  {
+    "word": "Widmaīs",
+    "ru": "видимо",
+    "pr": "Widmaīs",
+    "note": "Fix Widmaīs translation"
+  },
+  {
+    "id": 2233892,
+    "ru": "я",
+    "pos": "PRON"
+  },
+  {
+    "word": "Mēns būtwei",
+    "ru": "Я был",
+    "pr": "Mēns būtwei",
+    "note": "Fix Mēns būtwei translation"
   }
 ]
